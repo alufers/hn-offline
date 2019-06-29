@@ -2,11 +2,22 @@ import path from "path";
 import webpack from "webpack";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
-import BabelMinifyPlugin from "babel-minify-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
-import OptimizeCSSAssetsPlugin from "optimize-css-assets-webpack-plugin";
 
-console.log(process.env.NODE_ENV);
+export const lessCommonLoaders = [
+  "css-modules-typescript-loader",
+  {
+    loader: "css-loader", // translates CSS into CommonJS,
+    options: {
+      modules: {
+        localIdentName: "[sha1:hash:hex:4]"
+      }
+    }
+  },
+  {
+    loader: "less-loader" // compiles Less to CSS
+  }
+];
 
 const config: webpack.Configuration = {
   mode: "production",
@@ -23,6 +34,11 @@ const config: webpack.Configuration = {
       "react-dom": "preact-compat"
     }
   },
+  optimization: {
+    splitChunks: {
+      chunks: "initial"
+    }
+  },
   module: {
     rules: [
       // all files with a `.ts` or `.tsx` extension will be handled by `ts-loader`
@@ -32,53 +48,32 @@ const config: webpack.Configuration = {
       },
       {
         test: /\.less$/,
-        use: [
-          {
-            loader: MiniCssExtractPlugin.loader,
-            options: {
-              hmr: process.env.NODE_ENV === "development"
-            }
-          },
-          "css-modules-typescript-loader",
-          {
-            loader: "css-loader", // translates CSS into CommonJS,
-            options: {
-              modules: {
-                localIdentName: "[sha1:hash:hex:4]"
-              }
-            }
-          },
-          {
-            loader: "less-loader" // compiles Less to CSS
-          }
-        ]
+        use: [...lessCommonLoaders]
       },
       {
         test: /\.svg$/,
+        use: [{ loader: "url-loader" }]
+      },
+      {
+        test: /\.font\.js/,
         use: [
-          { loader: "url-loader" },
+          "style-loader",
+          "css-loader",
           {
-            loader: "image-webpack-loader",
-            options: {}
+            loader: "webfonts-loader",
+            options: {
+              cssTemplate: path.join(__dirname, "config/webfonts_template.hbs")
+            }
           }
         ]
       }
     ]
   },
-  optimization: {
-    minimizer: [new BabelMinifyPlugin({}), new OptimizeCSSAssetsPlugin({})]
-  },
   plugins: [
     new HtmlWebpackPlugin({
       title: "HN Offline"
     }),
-    new BundleAnalyzerPlugin(),
-    new MiniCssExtractPlugin({
-      // Options similar to the same options in webpackOptions.output
-      // both options are optional
-      filename: "[name].css",
-      chunkFilename: "[id].css"
-    })
+    new BundleAnalyzerPlugin()
   ]
 };
 

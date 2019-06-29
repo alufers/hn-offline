@@ -2,9 +2,9 @@ import path from "path";
 import webpack from "webpack";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
-import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import { Plugin as IconFontPlugin } from "icon-font-loader";
 
-export const lessCommonLoaders = [
+export const cssCommonLoaders = [
   "css-modules-typescript-loader",
   {
     loader: "css-loader", // translates CSS into CommonJS,
@@ -14,6 +14,11 @@ export const lessCommonLoaders = [
       }
     }
   },
+  "icon-font-loader"
+];
+
+export const lessCommonLoaders = [
+  ...cssCommonLoaders,
   {
     loader: "less-loader" // compiles Less to CSS
   }
@@ -47,25 +52,12 @@ const config: webpack.Configuration = {
         loader: "ts-loader"
       },
       {
-        test: /\.less$/,
+        test: [/\.less$/, /\.css$/],
         use: [...lessCommonLoaders]
       },
       {
         test: /\.svg$/,
         use: [{ loader: "url-loader" }]
-      },
-      {
-        test: /\.font\.js/,
-        use: [
-          "style-loader",
-          "css-loader",
-          {
-            loader: "webfonts-loader",
-            options: {
-              cssTemplate: path.join(__dirname, "config/webfonts_template.hbs")
-            }
-          }
-        ]
       }
     ]
   },
@@ -73,7 +65,10 @@ const config: webpack.Configuration = {
     new HtmlWebpackPlugin({
       title: "HN Offline"
     }),
-    new BundleAnalyzerPlugin()
+    new BundleAnalyzerPlugin(),
+    new IconFontPlugin({
+      types: ["woff", "eot", "ttf", "svg"]
+    })
   ]
 };
 

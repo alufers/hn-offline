@@ -6,7 +6,7 @@ export default smart(baseConfig, {
   module: {
     rules: [
       {
-        test: /\.less$/,
+        test: [/\.less$/, /\.css$/],
         use: [
           {
             loader: "style-loader"

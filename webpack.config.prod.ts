@@ -22,7 +22,7 @@ export default smart(baseConfig, {
         ]
       },
       {
-        test: /\.less$/,
+        test: [/\.less$/, /\.css$/],
         use: [
           {
             loader: MiniCssExtractPlugin.loader

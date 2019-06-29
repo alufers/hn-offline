@@ -1,5 +1,5 @@
 import { h } from "preact";
-import style from "./style.less";
+import "./style.less";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
 import ItemHead from "../ItemHead";
@@ -9,7 +9,7 @@ export default () => {
   return (
     <div>
       <Navbar />
-      <div class={style.container}>
+      <div styleName="container">
         <ItemHead
           item={
             {

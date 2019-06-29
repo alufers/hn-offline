@@ -1,11 +1,11 @@
 import { h } from "preact";
-import style from "./style.less";
+import "./style.less";
 h;
 export default () => (
-  <div class={style.navbar}>
-    <div class={style.brand}>HN offline</div>
-    <div class={style.spacer} />
-    <div class={style.iconElem + " " + style.withIndicator + " " + style.reloadIcon}>
+  <div styleName="navbar">
+    <div styleName="brand">HN offline</div>
+    <div styleName="spacer" />
+    <div styleName="iconElem withIndicator reloadIcon">
       {/* <img src={require("../resources/reload_black.svg")} /> */}
     </div>
   </div>

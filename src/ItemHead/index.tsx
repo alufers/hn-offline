@@ -1,6 +1,6 @@
 import { h } from "preact";
 import Item from "../types/Item";
-import style from "./style.less";
+import "./style.less";
 
 export interface ItemHeadProps {
   item: Item;
@@ -8,12 +8,14 @@ export interface ItemHeadProps {
 
 export default ({ item }: ItemHeadProps) => {
   return (
-    <div class={style.item}>
-      <div class={style.mainRow}>
-        <a href="#" class={style.title}>
+    <div styleName="item">
+      <div styleName="mainRow">
+        <a href="#" styleName="title">
           {item.title}
         </a>
-        <a href="#" class={style.domain}>domain.com</a>
+        <a href="#" styleName="domain">
+          domain.com
+        </a>
       </div>
       <div>
         <span>{item.score} points</span>

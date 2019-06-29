@@ -4,13 +4,14 @@ import HtmlWebpackPlugin from "html-webpack-plugin";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 import { Plugin as IconFontPlugin } from "icon-font-loader";
 
+const cssModulesNamePattern = "[sha1:hash:hex:4]";
 export const cssCommonLoaders = [
   "css-modules-typescript-loader",
   {
     loader: "css-loader", // translates CSS into CommonJS,
     options: {
       modules: {
-        localIdentName: "[sha1:hash:hex:4]"
+        localIdentName: cssModulesNamePattern
       }
     }
   },
@@ -24,9 +25,12 @@ export const lessCommonLoaders = [
   }
 ];
 
+const context = path.resolve(__dirname, "src");
+
 const config: webpack.Configuration = {
   mode: "production",
-  entry: "./src/index.tsx",
+  entry: "./index.tsx",
+  context,
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "app.bundle.js"
@@ -49,7 +53,35 @@ const config: webpack.Configuration = {
       // all files with a `.ts` or `.tsx` extension will be handled by `ts-loader`
       {
         test: /\.tsx?$/,
-        loader: "ts-loader"
+        use: [
+          {
+            loader: "babel-loader",
+            query: {
+              plugins: [
+                [
+                  "@babel/transform-react-jsx",
+                  {
+                    pragma: "__Preact.h"
+                  }
+                ],
+                [
+                  "react-css-modules",
+                  {
+                    context,
+                    generateScopedName: cssModulesNamePattern,
+                    filetypes: {
+                      ".less": {
+                        syntax: "postcss-less"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          },
+
+          { loader: "ts-loader" }
+        ]
       },
       {
         test: [/\.less$/, /\.css$/],
@@ -65,9 +97,14 @@ const config: webpack.Configuration = {
     new HtmlWebpackPlugin({
       title: "HN Offline"
     }),
-    new BundleAnalyzerPlugin(),
+    // new BundleAnalyzerPlugin(),
     new IconFontPlugin({
+      fontName: "icn",
+      filename: "[name].[ext]?[sha1:hash:hex:5]",
       types: ["woff", "eot", "ttf", "svg"]
+    }),
+    new webpack.ProvidePlugin({
+      __Preact: "preact"
     })
   ]
 };

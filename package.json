@@ -14,20 +14,27 @@
     "webfonts-loader": "^4.4.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.4.5",
+    "@babel/plugin-transform-react-jsx": "^7.3.0",
     "@fortawesome/fontawesome-free": "^5.9.0",
     "@types/html-webpack-plugin": "^3.2.0",
     "@types/node": "^12.0.10",
     "@types/webpack": "^4.4.34",
     "@types/webpack-dev-server": "^3.1.6",
     "@types/webpack-merge": "^4.1.5",
+    "babel-loader": "^8.0.6",
     "babel-minify-webpack-plugin": "^0.3.1",
+    "babel-plugin-react-css-modules": "^5.2.6",
+    "cross-env": "^5.2.0",
     "css-loader": "^3.0.0",
     "css-modules-typescript-loader": "^2.0.4",
     "html-webpack-plugin": "^4.0.0-beta.5",
+    "ignore-loader": "^0.1.2",
     "image-webpack-loader": "^5.0.0",
     "less-loader": "^5.0.0",
     "mini-css-extract-plugin": "^0.7.0",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
+    "postcss-less": "^3.1.4",
     "style-loader": "^0.23.1",
     "svg-inline-loader": "^0.8.0",
     "ts-loader": "^6.0.4",
@@ -42,8 +49,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --config webpack.config.prod.ts",
-    "dev": "webpack-dev-server --config webpack.config.dev.ts"
+    "build": "cross-env TS_NODE_PROJECT=\"config/tsconfig.webpack.json\" webpack --config webpack.config.prod.ts",
+    "dev": "cross-env TS_NODE_PROJECT=\"config/tsconfig.webpack.json\" webpack-dev-server --config webpack.config.dev.ts"
   },
   "author": "",
   "license": "MIT"

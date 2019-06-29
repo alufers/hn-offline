@@ -2,8 +2,6 @@
 // Please do not change this file!
 interface CssExports {
   'brand': string;
-  'd1': string;
-  'd2': string;
   'iconElem': string;
   'navbar': string;
   'pulse': string;

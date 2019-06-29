@@ -7,8 +7,10 @@ import MiniCssExtractPlugin from "mini-css-extract-plugin";
 export default smart(baseConfig, {
   mode: "production",
   optimization: {
-    minimizer: [new BabelMinifyPlugin({}) as any, new OptimizeCSSAssetsPlugin({})],
-    
+    minimizer: [
+      new BabelMinifyPlugin({}) as any,
+      new OptimizeCSSAssetsPlugin({})
+    ]
   },
   module: {
     rules: [
@@ -24,6 +26,7 @@ export default smart(baseConfig, {
       {
         test: [/\.less$/, /\.css$/],
         use: [
+          "ignore-loader",
           {
             loader: MiniCssExtractPlugin.loader
           },

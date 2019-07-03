@@ -2,9 +2,22 @@
 // Please do not change this file!
 interface CssExports {
   'domain': string;
+  'icon': string;
+  'icon-clock': string;
+  'icon-comments': string;
+  'icon-user': string;
+  'info-column': string;
   'item': string;
-  'mainRow': string;
+  'link': string;
+  'loading-placeholder': string;
+  'main-row': string;
+  'meta': string;
+  'narrow': string;
+  'placeHolderShimmer': string;
+  'rank': string;
+  'score': string;
   'title': string;
+  'wide': string;
 }
 declare var cssExports: CssExports;
 export = cssExports;

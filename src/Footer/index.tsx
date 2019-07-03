@@ -2,4 +2,4 @@ import { h } from "preact";
 
 h;
 
-export default () => <div>Abb</div>;
+export default () => <div>made by alufers</div>;

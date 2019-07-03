@@ -9,19 +9,31 @@ export interface ItemHeadProps {
 export default ({ item }: ItemHeadProps) => {
   return (
     <div styleName="item">
-      <div styleName="mainRow">
-        <a href="#" styleName="title">
-          {item.title}
-        </a>
-        <a href="#" styleName="domain">
-          domain.com
-        </a>
-      </div>
-      <div>
-        <span>{item.score} points</span>
-        <span>by {item.by}</span>
-        <span>1 hour ago</span>
-        <span>{item.descendants} comments</span>
+      {/* <div styleName="rank">1.</div> */}
+      <div styleName="score">{item.score}</div>
+      <div styleName="info-column">
+        <div styleName="main-row">
+          <a href="#" styleName="title">
+            {item.title}
+          </a>
+          <a href="#" styleName="domain">
+            domain.com
+          </a>
+        </div>
+        <div styleName="meta">
+          <a href="#" styleName="link">
+            <i styleName="icon icon-comments" />
+            <span className="text">{item.descendants} comments</span>
+          </a>
+          <a href="#" styleName="link">
+            <i styleName="icon icon-clock" />
+            <span className="text">1h ago</span>
+          </a>
+          <a href="#" styleName="link">
+            <i styleName="icon icon-user" />
+            <span className="text">{item.by}</span>
+          </a>
+        </div>
       </div>
     </div>
   );

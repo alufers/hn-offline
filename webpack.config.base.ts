@@ -76,6 +76,12 @@ const config: webpack.Configuration = {
                       }
                     }
                   }
+                ],
+                [
+                  "auto-import", // we use this plugin insstead of webpack.ProvidePlugin to support better module concatenation
+                  {
+                    declarations: [{ default: "__Preact", path: "preact" }]
+                  }
                 ]
               ]
             }
@@ -104,12 +110,9 @@ const config: webpack.Configuration = {
       filename: "[name].[ext]?[sha1:hash:hex:5]",
       types: ["woff", "eot", "ttf", "svg"]
     }),
-    new webpack.ProvidePlugin({
-      __Preact: "preact"
-    }),
     new ServiceWorkerWebpackPlugin({
-      entry: path.join(__dirname, 'src/service-worker/index.ts'),
-    }),
+      entry: path.join(__dirname, "src/service-worker/index.ts")
+    })
   ]
 };
 

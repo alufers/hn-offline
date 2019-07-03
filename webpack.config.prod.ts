@@ -3,6 +3,7 @@ import baseConfig, { lessCommonLoaders } from "./webpack.config.base";
 import BabelMinifyPlugin from "babel-minify-webpack-plugin";
 import OptimizeCSSAssetsPlugin from "optimize-css-assets-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import { CleanWebpackPlugin } from "clean-webpack-plugin";
 
 export default smart(baseConfig, {
   mode: "production",
@@ -41,6 +42,7 @@ export default smart(baseConfig, {
       // both options are optional
       filename: "[name].css",
       chunkFilename: "[id].css"
-    })
+    }),
+    new CleanWebpackPlugin()
   ]
 });

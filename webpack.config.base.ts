@@ -3,6 +3,7 @@ import webpack from "webpack";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 import { Plugin as IconFontPlugin } from "icon-font-loader";
+import ServiceWorkerWebpackPlugin from "serviceworker-webpack-plugin";
 
 const cssModulesNamePattern = "[sha1:hash:hex:4]";
 export const cssCommonLoaders = [
@@ -105,7 +106,10 @@ const config: webpack.Configuration = {
     }),
     new webpack.ProvidePlugin({
       __Preact: "preact"
-    })
+    }),
+    new ServiceWorkerWebpackPlugin({
+      entry: path.join(__dirname, 'src/service-worker/index.ts'),
+    }),
   ]
 };
 

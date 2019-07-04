@@ -74,7 +74,8 @@ const config: webpack.Configuration = {
                       ".less": {
                         syntax: "postcss-less"
                       }
-                    }
+                    },
+                    attributeNames: { styleName: "class" }
                   }
                 ],
                 [
@@ -104,7 +105,7 @@ const config: webpack.Configuration = {
     new HtmlWebpackPlugin({
       title: "HN Offline"
     }),
-    // new BundleAnalyzerPlugin(),
+    //new BundleAnalyzerPlugin(),
     new IconFontPlugin({
       fontName: "icn",
       filename: "[name].[ext]?[sha1:hash:hex:5]",

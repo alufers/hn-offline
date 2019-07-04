@@ -9,11 +9,11 @@ interface CssExports {
   'info-column': string;
   'item': string;
   'link': string;
+  'loader': string;
   'loading-placeholder': string;
   'main-row': string;
   'meta': string;
   'narrow': string;
-  'placeHolderShimmer': string;
   'rank': string;
   'score': string;
   'title': string;

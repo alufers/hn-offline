@@ -1,1 +1,7 @@
-console.log("Hello from the service worker!");
+import "./cachingUtils";
+import { registerFrontendRequestHandler } from "./communicationApi";
+
+registerFrontendRequestHandler(async () => {
+  console.log("RECIEVED MESSAGE");
+  return "HELLO";
+});

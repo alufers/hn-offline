@@ -20,19 +20,19 @@ export default () => {
         <div styleName="meta">
           <span href="#" styleName="link">
             <i styleName="icon icon-comments" />
-            <span className="text">
+            <span>
               <div styleName="loading-placeholder" />
             </span>
           </span>
           <span href="#" styleName="link">
             <i styleName="icon icon-clock" />
-            <span className="text">
+            <span>
               <div styleName="loading-placeholder" />
             </span>
           </span>
           <span href="#" styleName="link">
             <i styleName="icon icon-user" />
-            <span className="text">
+            <span>
               <div styleName="loading-placeholder" />
             </span>
           </span>

@@ -62,7 +62,8 @@ const config: webpack.Configuration = {
                 [
                   "@babel/transform-react-jsx",
                   {
-                    pragma: "h"
+                    pragma: "h",
+                    pragmaFrag: "Fragment"
                   }
                 ],
                 [
@@ -81,7 +82,9 @@ const config: webpack.Configuration = {
                 [
                   "auto-import", // we use this plugin insstead of webpack.ProvidePlugin to support better module concatenation
                   {
-                    declarations: [{ members: ["h"], path: "preact" }]
+                    declarations: [
+                      { members: ["h", "Fragment"], path: "preact" }
+                    ]
                   }
                 ]
               ]

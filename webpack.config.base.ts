@@ -62,7 +62,7 @@ const config: webpack.Configuration = {
                 [
                   "@babel/transform-react-jsx",
                   {
-                    pragma: "__Preact.h"
+                    pragma: "h"
                   }
                 ],
                 [
@@ -81,7 +81,7 @@ const config: webpack.Configuration = {
                 [
                   "auto-import", // we use this plugin insstead of webpack.ProvidePlugin to support better module concatenation
                   {
-                    declarations: [{ default: "__Preact", path: "preact" }]
+                    declarations: [{ members: ["h"], path: "preact" }]
                   }
                 ]
               ]

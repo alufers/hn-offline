@@ -31,7 +31,7 @@ export default class ServiceWorkerClient {
     });
   }
 
-  subscribe<T>(type: MessageType, data?: any, callback: (data: T) => void) {
+  subscribe<T>(type: MessageType, data: any, callback: (data: T) => void) {
     waitForSW();
     var msgChan = new MessageChannel();
 

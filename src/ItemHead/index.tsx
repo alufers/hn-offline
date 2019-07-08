@@ -1,5 +1,6 @@
-import { h, Attributes } from "preact";
+import { Attributes } from "preact";
 import Item from "../types/Item";
+import timeAgoFromTimestamp from "../util/timeAgoFromTimestamp";
 import "./style.less";
 
 export interface ItemHeadProps extends Attributes {
@@ -27,7 +28,7 @@ export default ({ item }: ItemHeadProps) => {
           </a>
           <a href="#" styleName="link">
             <i styleName="icon icon-clock" />
-            <span>1h ago</span>
+            <span>{timeAgoFromTimestamp(item.time)}</span>
           </a>
           <a href="#" styleName="link">
             <i styleName="icon icon-user" />

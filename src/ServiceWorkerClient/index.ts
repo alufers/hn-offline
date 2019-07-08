@@ -1,7 +1,7 @@
 import MessageType from "../common/MessageType.enum";
 
 export default class ServiceWorkerClient {
-  async request(type: MessageType, data: any) {
+  async request<R = any>(type: MessageType, data?: any): Promise<R> {
     await navigator.serviceWorker.ready;
     if (!navigator.serviceWorker.controller) {
       await new Promise(res =>

@@ -1,10 +1,11 @@
 import MessageType from "../common/MessageType.enum";
 import Item from "../types/Item";
+import AppSyncManager from "./AppSyncManager";
 
 /**
  * Returns a fucntion which responds to requests sent from the frontend.
  */
-export default function makeRequestHandler() {
+export default function makeRequestHandler(asm: AppSyncManager) {
   const handlers = [];
   function registerTypeHandler(
     type: MessageType,
@@ -13,18 +14,12 @@ export default function makeRequestHandler() {
     handlers[type] = handler;
   }
   registerTypeHandler(MessageType.GetItems, async data => {
-    const topStories: number[] = await fetch(
-      `https://hacker-news.firebaseio.com/v0/topstories.json`
-    ).then(resp => resp.json());
-    let items: Item[] = [];
-    for (let id of topStories.slice(0, 10)) {
-      items.push(
-        await fetch(
-          `https://hacker-news.firebaseio.com/v0/item/${id}.json`
-        ).then(resp => resp.json())
-      );
+    try {
+      await asm.itemListsRepository.syncTopStories();
+    } catch (e) {
+      console.error(e);
     }
-    return items;
+    return await asm.itemListsRepository.getStructuredItems();
   });
 
   return function({ type, data }) {

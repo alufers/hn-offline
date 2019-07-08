@@ -1,0 +1,21 @@
+@import "../common.less";
+
+.button {
+  background: @primary-color;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.1rem;
+  border-radius: 3px;
+  padding: 6px 10px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11),
+    0 1px 3px fade(@primary-color, 30%);
+  transition: background 200ms ease-in-out;
+  &.loading {
+    cursor: default;
+    color: #666;
+    background: #eee;
+    box-shadow: none;
+    position: relative;
+    .reflective-animation();
+  }
+}

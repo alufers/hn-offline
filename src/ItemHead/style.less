@@ -1,3 +1,5 @@
+@import "../common.less";
+
 .item {
   display: block;
   text-decoration: none;
@@ -123,18 +125,5 @@
     width: 25px;
   }
 
-  animation-fill-mode: forwards;
-  animation: loader 2.25s infinite;
-  animation-timing-function: linear;
-  background: darkgray;
-  background: linear-gradient(to right, #eeeeee 10%, #dddddd 18%, #eeeeee 33%);
-  background-size: 600px 104px;
-  @keyframes loader {
-    0% {
-      background-position: -601px 0;
-    }
-    100% {
-      background-position: 600px 0;
-    }
-  }
+  .reflective-animation();
 }

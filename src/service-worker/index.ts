@@ -1,7 +1,5 @@
 import "./cachingUtils";
 import { registerFrontendRequestHandler } from "./communicationApi";
+import makeRequestHandler from "./makeRequestHandler";
 
-registerFrontendRequestHandler(async () => {
-  console.log("RECIEVED MESSAGE");
-  return "HELLO";
-});
+registerFrontendRequestHandler(makeRequestHandler());

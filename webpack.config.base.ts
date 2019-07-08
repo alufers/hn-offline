@@ -32,6 +32,9 @@ const config: webpack.Configuration = {
   mode: "production",
   entry: "./index.tsx",
   context,
+  devServer: {
+    historyApiFallback: true
+  },
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "app.bundle.js"

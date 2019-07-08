@@ -2,6 +2,7 @@ import "./style.less";
 import { ComponentChildren, ComponentType } from "preact";
 import { useState, Ref } from "preact/hooks";
 import ClickOutside from "../ClickOutside";
+
 export default ({
   children,
   trigger: Trigger

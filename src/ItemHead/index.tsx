@@ -1,8 +1,8 @@
-import { h } from "preact";
+import { h, Attributes } from "preact";
 import Item from "../types/Item";
 import "./style.less";
 
-export interface ItemHeadProps {
+export interface ItemHeadProps extends Attributes {
   item: Item;
 }
 
@@ -23,15 +23,15 @@ export default ({ item }: ItemHeadProps) => {
         <div styleName="meta">
           <a href="#" styleName="link">
             <i styleName="icon icon-comments" />
-            <span className="text">{item.descendants} comments</span>
+            <span>{item.descendants} comments</span>
           </a>
           <a href="#" styleName="link">
             <i styleName="icon icon-clock" />
-            <span className="text">1h ago</span>
+            <span>1h ago</span>
           </a>
           <a href="#" styleName="link">
             <i styleName="icon icon-user" />
-            <span className="text">{item.by}</span>
+            <span>{item.by}</span>
           </a>
         </div>
       </div>

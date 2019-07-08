@@ -3,6 +3,8 @@ import ItemList from "../types/ItemList";
 import awaitIDBTransaction from "./util/awaitIDBTransaction";
 import awaitIDBRequest from "./util/awaitIDBRequest";
 
+const ITEM_SYNC_TIME = 1000 * 60 * 5; // FIve minutes of caching
+
 export default class ItemListsRepository {
   constructor(public asm: AppSyncManager) {}
   async upsertItemList(itemList: ItemList) {
@@ -23,7 +25,7 @@ export default class ItemListsRepository {
         }. Additional information: ${await resp.text()} `
       );
     }
-    const itemIds: number[] = await resp.json();
+    let itemIds: number[] = await resp.json();
     if (!Array.isArray(itemIds)) {
       throw new Error("itemIds is not an array");
     }
@@ -31,7 +33,19 @@ export default class ItemListsRepository {
       kind: "topstories",
       itemIds
     });
-    for (const id of itemIds.slice(0, 30)) {
+    itemIds = itemIds.slice(0, 30);
+
+    const itemIdsAlreadyCached = (await this.getStructuredItems())
+      .filter(
+        itm =>
+          itm._lastSync &&
+          new Date().getTime() - itm._lastSync.getTime() < ITEM_SYNC_TIME
+      )
+      .map(itm => itm.id);
+
+    itemIds = itemIds.filter(id => !itemIdsAlreadyCached.includes(id));
+
+    for (const id of itemIds) {
       await this.asm.itemsRepository.syncItem(id);
     }
   }

@@ -12,6 +12,10 @@ export default class ItemsRepository {
     await awaitIDBTransaction(transaction);
   }
 
+  /**
+   * Downloads an item form the Hackernews API by its id. Additionaly it saves the current time in _lastSync.
+   * @param id the id of theitem
+   */
   async syncItem(id: number) {
     const resp = await fetch(
       `https://hacker-news.firebaseio.com/v0/item/${id}.json`
@@ -24,6 +28,7 @@ export default class ItemsRepository {
       );
     }
     const item: Item = await resp.json();
+    item._lastSync = new Date();
     await this.upsertItem(item);
     return item;
   }

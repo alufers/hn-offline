@@ -18,7 +18,7 @@ export default ({ item }: ItemHeadProps) => {
             {item.title}
           </a>
           <a href="#" styleName="domain">
-            domain.com
+            {new URL(item.url).host}
           </a>
         </div>
         <div styleName="meta">

@@ -9,7 +9,7 @@ export interface ItemHeadProps extends Attributes {
 
 export default ({ item }: ItemHeadProps) => {
   return (
-    <div styleName="item">
+    <a styleName="item" href="#">
       {/* <div styleName="rank">1.</div> */}
       <div styleName="score">{item.score}</div>
       <div styleName="info-column">
@@ -36,6 +36,6 @@ export default ({ item }: ItemHeadProps) => {
           </a>
         </div>
       </div>
-    </div>
+    </a>
   );
 };

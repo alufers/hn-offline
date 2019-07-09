@@ -6,6 +6,7 @@ import { useParam } from "../router";
 import useServiceWorkerClient from "../ServiceWorkerClient/useServiceWorkerClient";
 import ItemWithPopulatedChildren from "../types/ItemWithPopulatedChildren";
 import Comment from "../Comment";
+import "./style.less";
 
 export default () => {
   const id = useParam("id");
@@ -39,9 +40,11 @@ export default () => {
     return (
       <div>
         <ItemHead item={item} />
-        {item.populatedChildren.map(child => (
-          <Comment key={child.id} item={child} />
-        ))}
+        <div styleName="comments-container">
+          {item.populatedChildren.map(child => (
+            <Comment key={child.id} item={child} />
+          ))}
+        </div>
       </div>
     );
   }

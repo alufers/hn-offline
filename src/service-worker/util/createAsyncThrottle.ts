@@ -6,8 +6,8 @@
 export default function createAsyncThrottle(max: number) {
   let cur = 0;
   const queue = [];
-  function throttle<T>(fn: () => Promise<T>) {
-    return new Promise((resolve, reject) => {
+  function throttle<T>(fn: () => Promise<T>): Promise<T> {
+    return new Promise<T>((resolve, reject) => {
       function handleFn() {
         if (cur < max) {
           throttle.current = ++cur;

@@ -39,7 +39,8 @@ const config: webpack.Configuration = {
   },
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: "app.bundle.js"
+    filename: "app.bundle.js",
+    publicPath: "/"
   },
   resolve: {
     // Add `.ts` and `.tsx` as a resolvable extension.

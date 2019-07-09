@@ -1,4 +1,5 @@
 import { Attributes } from "preact";
+import { Link } from "../router";
 import Item from "../types/Item";
 import timeAgoFromTimestamp from "../util/timeAgoFromTimestamp";
 import "./style.less";
@@ -9,33 +10,33 @@ export interface ItemHeadProps extends Attributes {
 
 export default ({ item }: ItemHeadProps) => {
   return (
-    <a styleName="item" href="#">
+    <div styleName="item">
       {/* <div styleName="rank">1.</div> */}
       <div styleName="score">{item.score}</div>
       <div styleName="info-column">
         <div styleName="main-row">
-          <a href="#" styleName="title">
+          <Link to={`/item/${item.id}/view`} styleName="title">
             {item.title}
-          </a>
+          </Link>
           <a href="#" styleName="domain">
             {item.url && new URL(item.url).host}
           </a>
         </div>
         <div styleName="meta">
-          <a href="#" styleName="link">
+          <Link to={`/item/${item.id}/comments`} styleName="link">
             <i styleName="icon icon-comments" />
             <span>{item.descendants} comments</span>
-          </a>
-          <a href="#" styleName="link">
+          </Link>
+          <span href="#" styleName="link">
             <i styleName="icon icon-clock" />
             <span>{timeAgoFromTimestamp(item.time)}</span>
-          </a>
+          </span>
           <a href="#" styleName="link">
             <i styleName="icon icon-user" />
             <span>{item.by}</span>
           </a>
         </div>
       </div>
-    </a>
+    </div>
   );
 };

@@ -13,7 +13,7 @@ export default () => {
         <Route path="/" component={ItemsList} exact />
         <Route
           path="/item/:id/comments"
-          component={() => <span>"item route"</span>}
+          component={() => <span>"item comments route"</span>}
         />
         <Footer />
       </div>

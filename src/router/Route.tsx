@@ -1,6 +1,6 @@
 import useLocation from "./useLocation";
 import useRouter from "./useRouter";
-import { ComponentType } from "preact";
+import { ComponentType, Attributes } from "preact";
 import { useMemo, useContext } from "preact/hooks";
 import ParamsContext from "./ParamsContext";
 import useCompiledPathRegexp from "./useCompiledPathRegexp";
@@ -13,7 +13,7 @@ export default ({
   path: string;
   component: ComponentType;
   exact?: boolean;
-}) => {
+} & Attributes) => {
   const location = useLocation();
   const [pathRegexp, paramMapping] = useCompiledPathRegexp(path, exact);
   const match = useMemo(() => location.pathname.match(pathRegexp), [location]);

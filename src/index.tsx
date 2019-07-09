@@ -7,6 +7,8 @@ import MessageType from "./common/MessageType.enum";
 import _ServiceWorkerClientContext from "./ServiceWorkerClient/ServiceWorkerClientContext";
 import { Router, RouterContext, Route } from "./router";
 
+console.log("APP INIT");
+
 const ServiceWorkerClientContext = _ServiceWorkerClientContext as any;
 
 if ("serviceWorker" in navigator) {

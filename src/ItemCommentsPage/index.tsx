@@ -1,11 +1,44 @@
-import { useParam } from "../router";
+import { useEffect, useState } from "preact/hooks";
+import MessageType from "../common/MessageType.enum";
+import ItemHead from "../ItemHead";
 import LoadingPlaceholder from "../ItemHead/LoadingPlaceholder";
+import { useParam } from "../router";
+import useServiceWorkerClient from "../ServiceWorkerClient/useServiceWorkerClient";
+import ItemWithPopulatedChildren from "../types/ItemWithPopulatedChildren";
 
 export default () => {
   const id = useParam("id");
-  return (
-    <div>
-      <LoadingPlaceholder />
-    </div>
-  );
+  const [item, setItem] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const client = useServiceWorkerClient();
+
+  useEffect(() => {
+    async function loadData() {
+      try {
+        setLoading(true);
+        const loadedItem = await client.request<ItemWithPopulatedChildren>(
+          MessageType.GetItemWithPopulatedChildren,
+          { id }
+        );
+        setItem(loadedItem);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadData();
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div>
+        <LoadingPlaceholder />
+      </div>
+    );
+  } else {
+    return (
+      <div>
+        <ItemHead item={item} />
+      </div>
+    );
+  }
 };

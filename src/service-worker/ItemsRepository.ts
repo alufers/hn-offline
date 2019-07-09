@@ -7,10 +7,8 @@ import ItemWithPopulatedChildren from "../types/ItemWithPopulatedChildren";
 
 export default class ItemsRepository {
   constructor(public asm: AppSyncManager) {}
-  async upsertItem(
-    item: Item,
-    transaction = this.asm.db.transaction(["items"], "readwrite")
-  ) {
+  async upsertItem(item: Item) {
+    const transaction = this.asm.db.transaction(["items"], "readwrite");
     const os = transaction.objectStore("items");
     os.put(item);
     await awaitIDBTransaction(transaction);
@@ -37,8 +35,8 @@ export default class ItemsRepository {
     return item;
   }
 
-  async syncItemIfNeeded(id: number, trans: IDBTransaction) {
-    const cachedItem = await this.getItemById(id, trans);
+  async syncItemIfNeeded(id: number) {
+    const cachedItem = await this.getItemById(id);
     if (
       !cachedItem ||
       new Date().getTime() - cachedItem._lastSync.getTime() >= ITEM_SYNC_TIME
@@ -48,8 +46,9 @@ export default class ItemsRepository {
     return cachedItem;
   }
 
-  async getItemById(id: number, trans: IDBTransaction) {
-    const itemsOs = trans.objectStore("items");
+  async getItemById(id: number) {
+    const transaction = this.asm.db.transaction(["items"], "readonly");
+    const itemsOs = transaction.objectStore("items");
     return awaitIDBRequest(itemsOs.get(id)) as Promise<Item>;
   }
 
@@ -70,20 +69,17 @@ export default class ItemsRepository {
    * Syncs an item and all its descendants.
    * @param id
    */
-  async syncItemRecursive(
-    id: number,
-    throttle = createAsyncThrottle(6),
-    transaction = this.asm.db.transaction(["items"], "readwrite")
-  ) {
+  async syncItemRecursive(id: number, throttle = createAsyncThrottle(6)) {
     const item = (await throttle(() =>
-      this.syncItemIfNeeded(id, transaction)
+      this.syncItemIfNeeded(id)
     )) as ItemWithPopulatedChildren;
 
-    item.populatedChildren = await Promise.all(
-      item.kids.map(kidId =>
-        throttle(() => this.syncItemRecursive(kidId, throttle, transaction))
-      )
-    );
+    // populate the children only if it has any kids, the HN api omits the array if it is empty
+    if (Array.isArray(item.kids)) {
+      item.populatedChildren = await Promise.all(
+        item.kids.map(kidId => this.syncItemRecursive(kidId, throttle))
+      );
+    }
 
     return item;
   }

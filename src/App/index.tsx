@@ -3,6 +3,8 @@ import Footer from "../Footer";
 import Navbar from "../Navbar";
 import "./style.less";
 import ItemsList from "../ItemsList";
+import ItemCommentsPage from "../ItemCommentsPage";
+
 import { Route } from "../router";
 
 export default () => {
@@ -11,10 +13,7 @@ export default () => {
       <Navbar />
       <div styleName="container">
         <Route path="/" component={ItemsList} exact />
-        <Route
-          path="/item/:id/comments"
-          component={() => <span>"item comments route"</span>}
-        />
+        <Route path="/item/:id/comments" component={ItemCommentsPage} />
         <Footer />
       </div>
     </div>

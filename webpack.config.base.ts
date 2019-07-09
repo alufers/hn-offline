@@ -33,7 +33,9 @@ const config: webpack.Configuration = {
   entry: "./index.tsx",
   context,
   devServer: {
-    historyApiFallback: true
+    historyApiFallback: {
+      index: "index.html"
+    }
   },
   output: {
     path: path.resolve(__dirname, "dist"),

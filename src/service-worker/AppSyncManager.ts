@@ -1,6 +1,8 @@
 import ItemsRepository from "./ItemsRepository";
 import ItemListsRepository from "./ItemListsRepository";
 
+export const ITEM_SYNC_TIME = 1000 * 60 * 5; 
+
 export default class AppSyncManager {
   db: IDBDatabase;
 

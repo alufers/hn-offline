@@ -1,12 +1,16 @@
 import Item from "../types/Item";
-import AppSyncManager from "./AppSyncManager";
+import AppSyncManager, { ITEM_SYNC_TIME } from "./AppSyncManager";
 import awaitIDBRequest from "./util/awaitIDBRequest";
 import awaitIDBTransaction from "./util/awaitIDBTransaction";
+import createAsyncThrottle from "./util/createAsyncThrottle";
+import ItemWithPopulatedChildren from "../types/ItemWithPopulatedChildren";
 
 export default class ItemsRepository {
   constructor(public asm: AppSyncManager) {}
-  async upsertItem(item: Item) {
-    const transaction = this.asm.db.transaction(["items"], "readwrite");
+  async upsertItem(
+    item: Item,
+    transaction = this.asm.db.transaction(["items"], "readwrite")
+  ) {
     const os = transaction.objectStore("items");
     os.put(item);
     await awaitIDBTransaction(transaction);
@@ -33,6 +37,22 @@ export default class ItemsRepository {
     return item;
   }
 
+  async syncItemIfNeeded(id: number, trans: IDBTransaction) {
+    const cachedItem = await this.getItemById(id, trans);
+    if (
+      !cachedItem ||
+      new Date().getTime() - cachedItem._lastSync.getTime() >= ITEM_SYNC_TIME
+    ) {
+      return this.syncItem(id);
+    }
+    return cachedItem;
+  }
+
+  async getItemById(id: number, trans: IDBTransaction) {
+    const itemsOs = trans.objectStore("items");
+    return awaitIDBRequest(itemsOs.get(id)) as Promise<Item>;
+  }
+
   async getItemsByIds(ids: number[], trans: IDBTransaction) {
     const itemsOs = trans.objectStore("items");
     let items = await Promise.all(
@@ -44,5 +64,27 @@ export default class ItemsRepository {
     items = items.filter(itm => !!itm);
 
     return items;
+  }
+
+  /**
+   * Syncs an item and all its descendants.
+   * @param id
+   */
+  async syncItemRecursive(
+    id: number,
+    throttle = createAsyncThrottle(6),
+    transaction = this.asm.db.transaction(["items"], "readwrite")
+  ) {
+    const item = (await throttle(() =>
+      this.syncItemIfNeeded(id, transaction)
+    )) as ItemWithPopulatedChildren;
+
+    item.populatedChildren = await Promise.all(
+      item.kids.map(kidId =>
+        throttle(() => this.syncItemRecursive(kidId, throttle, transaction))
+      )
+    );
+
+    return item;
   }
 }

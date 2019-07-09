@@ -1,10 +1,10 @@
-import AppSyncManager from "./AppSyncManager";
+import AppSyncManager, { ITEM_SYNC_TIME } from "./AppSyncManager";
 import ItemList from "../types/ItemList";
 import awaitIDBTransaction from "./util/awaitIDBTransaction";
 import awaitIDBRequest from "./util/awaitIDBRequest";
 import createAsyncThrottle from "./util/createAsyncThrottle";
 
-const ITEM_SYNC_TIME = 1000 * 60 * 5; // FIve minutes of caching
+// FIve minutes of caching
 
 export default class ItemListsRepository {
   constructor(public asm: AppSyncManager) {}
@@ -46,10 +46,14 @@ export default class ItemListsRepository {
 
     itemIds = itemIds.filter(id => !itemIdsAlreadyCached.includes(id));
     const throttle = createAsyncThrottle(6);
-  
-    await Promise.all(itemIds.map(id => throttle(() => {
-      return this.asm.itemsRepository.syncItem(id);
-    })))
+
+    await Promise.all(
+      itemIds.map(id =>
+        throttle(() => {
+          return this.asm.itemsRepository.syncItem(id);
+        })
+      )
+    );
   }
 
   async getStructuredItems() {

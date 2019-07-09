@@ -5,10 +5,11 @@ import LoadingPlaceholder from "../ItemHead/LoadingPlaceholder";
 import { useParam } from "../router";
 import useServiceWorkerClient from "../ServiceWorkerClient/useServiceWorkerClient";
 import ItemWithPopulatedChildren from "../types/ItemWithPopulatedChildren";
+import Comment from "../Comment";
 
 export default () => {
   const id = useParam("id");
-  const [item, setItem] = useState(null);
+  const [item, setItem] = useState<ItemWithPopulatedChildren>(null);
   const [loading, setLoading] = useState(true);
   const client = useServiceWorkerClient();
 
@@ -38,6 +39,9 @@ export default () => {
     return (
       <div>
         <ItemHead item={item} />
+        {item.populatedChildren.map(child => (
+          <Comment key={child.id} item={child} />
+        ))}
       </div>
     );
   }

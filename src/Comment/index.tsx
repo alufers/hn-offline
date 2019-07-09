@@ -1,13 +1,14 @@
 import ItemWithPopulatedChildren from "../types/ItemWithPopulatedChildren";
 import { Attributes } from "preact";
 import { useMemo } from "preact/hooks";
+import "./style.less";
 
 export default function Comment({
   item
 }: { item: ItemWithPopulatedChildren } & Attributes) {
   const htmlData = useMemo(() => ({ __html: item.text }), [item.text]); // memoize the html to aid rendering
   return (
-    <div style={{ paddingLeft: "10px" }}>
+    <div styleName="comment">
       <strong>{item.by}</strong>
       <p dangerouslySetInnerHTML={htmlData}>{item.text}</p>
       {item.populatedChildren &&

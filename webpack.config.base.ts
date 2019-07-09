@@ -34,7 +34,7 @@ const config: webpack.Configuration = {
   context,
   devServer: {
     historyApiFallback: {
-      index: "index.html"
+      index: "/index.html"
     }
   },
   output: {

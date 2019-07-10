@@ -32,6 +32,13 @@ export default function makeRequestHandler(asm: AppSyncManager) {
       }
     }
   );
+  registerTypeHandler(MessageType.GetItem, async ({ id }: { id: number }) => {
+    try {
+      return await asm.itemsRepository.syncItemIfNeeded(id);
+    } catch (e) {
+      console.error(e);
+    }
+  });
   return function({ type, data }) {
     return handlers[type](data);
   };

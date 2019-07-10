@@ -1,6 +1,7 @@
 const enum MessageType {
     GetItems,
-    GetItemWithPopulatedChildren
+    GetItemWithPopulatedChildren,
+    GetItem
 }
 
 export default MessageType;

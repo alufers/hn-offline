@@ -3,7 +3,7 @@ import "preact/hooks";
 import App from "./App";
 import runtime from "serviceworker-webpack-plugin/lib/runtime";
 import ServiceWorkerClient from "./ServiceWorkerClient";
-import MessageType from "./common/MessageType.enum";
+import MessageType from "./types/MessageType.enum";
 import _ServiceWorkerClientContext from "./ServiceWorkerClient/ServiceWorkerClientContext";
 import { Router, RouterContext, Route } from "./router";
 

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "preact/hooks";
-import MessageType from "../common/MessageType.enum";
+import MessageType from "../types/MessageType.enum";
 import ItemHead from "../ItemHead";
 import LoadingPlaceholder from "../ItemHead/LoadingPlaceholder";
 import useServiceWorkerClient from "../ServiceWorkerClient/useServiceWorkerClient";

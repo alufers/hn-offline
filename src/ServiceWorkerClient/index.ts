@@ -1,4 +1,4 @@
-import MessageType from "../common/MessageType.enum";
+import MessageType from "../types/MessageType.enum";
 
 const waitForSW = async () => {
   await navigator.serviceWorker.ready;

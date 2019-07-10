@@ -1,3 +1,4 @@
+import webpack from "webpack";
 import { smart } from "webpack-merge";
 import baseConfig, { lessCommonLoaders } from "./webpack.config.base";
 
@@ -15,5 +16,12 @@ export default smart(baseConfig, {
         ]
       }
     ]
-  }
+  },
+  plugins: [
+    new webpack.DefinePlugin({
+      "process.env": {
+        NODE_ENV: JSON.stringify("development")
+      }
+    })
+  ]
 });

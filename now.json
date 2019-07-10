@@ -12,7 +12,7 @@
       "use": "@now/static-build",
       "config": { "distDir": "dist" }
     },
-    { "src": "readability-proxy/index.js", "use": "@now/node" }
+    { "src": "readability-proxy/now.js", "use": "@now/node" }
   ],
   "routes": [
     {
@@ -21,7 +21,7 @@
       "dest": "/static/$1"
     },
     { "src": "/favicon.ico", "dest": "/favicon.ico" },
-    { "src": "/readability-proxy", "dest": "readability-proxy/index.js" },
+    { "src": "/readability-proxy", "dest": "readability-proxy/now.js" },
     { "src": "/asset-manifest.json", "dest": "/asset-manifest.json" },
     { "src": "/manifest.json", "dest": "/manifest.json" },
     { "src": "/precache-manifest.(.*)", "dest": "/precache-manifest.$1" },

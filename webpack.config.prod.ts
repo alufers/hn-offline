@@ -40,8 +40,8 @@ export default smart(baseConfig, {
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // both options are optional
-      filename: "[name].[hash].css",
-      chunkFilename: "[id].[hash].css"
+      filename: "static/[name].[hash].css",
+      chunkFilename: "static/[id].[hash].css"
     }),
     new CleanWebpackPlugin()
   ]

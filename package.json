@@ -54,7 +54,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "cross-env TS_NODE_PROJECT=\"config/tsconfig.webpack.json\" webpack --config webpack.config.prod.ts",
-    "dev": "cross-env TS_NODE_PROJECT=\"config/tsconfig.webpack.json\" webpack-dev-server --config webpack.config.dev.ts"
+    "dev": "cross-env TS_NODE_PROJECT=\"config/tsconfig.webpack.json\" webpack-dev-server --config webpack.config.dev.ts",
+    "now-build": "npm run build"
   },
   "author": "",
   "license": "MIT"

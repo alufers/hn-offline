@@ -39,7 +39,7 @@ const config: webpack.Configuration = {
   },
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: "app.bundle.js",
+    filename: "static/app.[hash].js",
     publicPath: "/"
   },
   resolve: {
@@ -116,6 +116,7 @@ const config: webpack.Configuration = {
     }),
     //new BundleAnalyzerPlugin(),
     new IconFontPlugin({
+      output: "./static/",
       fontName: "icn",
       filename: "[name].[ext]?[sha1:hash:hex:5]",
       types: ["woff", "eot", "ttf", "svg"]

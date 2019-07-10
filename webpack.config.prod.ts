@@ -68,7 +68,9 @@ export default smart(baseConfig, {
       ]
     }),
     new webpack.DefinePlugin({
-      "process.env.READABILITY_PROXY_URL": process.env.READABILITY_PROXY_URL
+      "process.env.READABILITY_PROXY_URL": JSON.stringify(
+        process.env.READABILITY_PROXY_URL
+      )
     })
   ]
 });

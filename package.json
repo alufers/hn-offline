@@ -59,6 +59,9 @@
     "dev": "cross-env TS_NODE_PROJECT=\"config/tsconfig.webpack.json\" webpack-dev-server --config webpack.config.dev.ts",
     "now-build": "npm run build"
   },
+  "engines": {
+    "node": ">=10.x"
+  },
   "author": "",
   "license": "MIT"
 }

@@ -1,11 +1,11 @@
 {
   "version": 2,
   "name": "hn-offline",
-
-  "env": {
-    "READABILITY_PROXY_URL": "/readability-proxy/"
+  "build": {
+    "env": {
+      "READABILITY_PROXY_URL": "/readability-proxy/"
+    }
   },
-
   "builds": [
     {
       "src": "package.json",

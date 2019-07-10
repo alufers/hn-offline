@@ -4,6 +4,8 @@ import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import OptimizeCSSAssetsPlugin from "optimize-css-assets-webpack-plugin";
 import { smart } from "webpack-merge";
 import baseConfig, { lessCommonLoaders } from "./webpack.config.base";
+import WebappWebpackPlugin from "webapp-webpack-plugin";
+import path from "path";
 
 export default smart(baseConfig, {
   mode: "production",
@@ -43,6 +45,10 @@ export default smart(baseConfig, {
       filename: "static/[name].[hash].css",
       chunkFilename: "static/[id].[hash].css"
     }),
-    new CleanWebpackPlugin()
+    new CleanWebpackPlugin(),
+    new WebappWebpackPlugin({
+      logo: path.join(__dirname, "src/resources/logo.png"),
+      prefix: "static/"
+    })
   ]
 });

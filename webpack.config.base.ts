@@ -4,6 +4,7 @@ import path from "path";
 import ServiceWorkerWebpackPlugin from "serviceworker-webpack-plugin";
 import webpack from "webpack";
 
+
 const cssModulesNamePattern = "[sha1:hash:hex:4]";
 export const cssCommonLoaders = [
   {

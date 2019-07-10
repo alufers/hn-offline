@@ -2,6 +2,7 @@
   "dependencies": {
     "jsdom": "^15.1.1",
     "micro": "^9.3.4",
+    "micro-cors": "^0.1.1",
     "node-fetch": "^2.6.0"
   },
   "devDependencies": {

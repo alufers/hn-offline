@@ -34,7 +34,8 @@ const config: webpack.Configuration = {
   devServer: {
     historyApiFallback: {
       index: "/index.html"
-    }
+    },
+    disableHostCheck: true
   },
   output: {
     path: path.resolve(__dirname, "dist"),

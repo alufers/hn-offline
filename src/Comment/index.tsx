@@ -10,13 +10,22 @@ export default function Comment({
 }: { item: ItemWithPopulatedChildren } & Attributes) {
   const htmlData = useMemo(() => ({ __html: item.text }), [item.text]); // memoize the html to aid rendering
   const [highlightHint, setHighlightHint] = useState(false);
-
+  const [collapsed, setCollapsed] = useState(false);
+  const renderedChildren = useMemo(
+    () =>
+      item.populatedChildren &&
+      item.populatedChildren.map(child => (
+        <Comment key={child.id} item={child} />
+      )),
+    [item.populatedChildren]
+  );
+  const toggleCollapse = () => setCollapsed(!collapsed);
   return (
     <div styleName="comment">
       {highlightHint ? (
         <div styleName="collapse-line highlight-hint" />
       ) : (
-        <div styleName="collapse-line" />
+        <div styleName="collapse-line" onClick={toggleCollapse} />
       )}
       <div styleName="inside">
         <div styleName="meta">
@@ -24,20 +33,32 @@ export default function Comment({
           <span styleName="meta-item time">
             {timeAgoFromTimestamp(item.time)}
           </span>
-          <span
-            onMouseOver={() => setHighlightHint(true)}
-            onMouseOut={() => setHighlightHint(false)}
-            styleName="meta-item collapse-button"
-            title="Collapse"
-          />
+          {collapsed ? (
+            <span
+              onMouseOver={() => setHighlightHint(true)}
+              onMouseOut={() => setHighlightHint(false)}
+              onClick={toggleCollapse}
+              styleName="meta-item expand-button"
+              title="Expand"
+            />
+          ) : (
+            <span
+              onMouseOver={() => setHighlightHint(true)}
+              onMouseOut={() => setHighlightHint(false)}
+              onClick={toggleCollapse}
+              styleName="meta-item collapse-button"
+              title="Collapse"
+            />
+          )}
         </div>
-        <p dangerouslySetInnerHTML={htmlData} />
-        <div className="children">
-          {item.populatedChildren &&
-            item.populatedChildren.map(child => (
-              <Comment key={child.id} item={child} />
-            ))}
-        </div>
+        {!collapsed && (
+          <p styleName="text" dangerouslySetInnerHTML={htmlData} />
+        )}
+        {collapsed ? (
+          <div styleName="children collapsed">{renderedChildren}</div>
+        ) : (
+          <div styleName="children">{renderedChildren}</div>
+        )}
       </div>
     </div>
   );

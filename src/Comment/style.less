@@ -4,8 +4,12 @@
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
+  margin-bottom: 8px;
   .inside {
     color: inherit;
+    .text {
+      color: #444;
+    }
     .meta {
       font-size: 0.9rem;
       color: #666;
@@ -19,7 +23,8 @@
       .username {
         color: inherit;
       }
-      .collapse-button {
+      .collapse-button,
+      .expand-button {
         cursor: pointer;
         color: inherit;
 
@@ -27,8 +32,23 @@
         &:after {
           position: relative;
           top: 3px;
+        }
+      }
+      .collapse-button {
+        &:after {
           icon-font: url("../resources/collapse_arrow.svg");
         }
+      }
+      .expand-button {
+        &:after {
+          icon-font: url("../resources/expand_left.svg");
+        }
+      }
+    }
+    .children {
+      color: inherit;
+      &.collapsed {
+        display: none;
       }
     }
   }

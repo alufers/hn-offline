@@ -16,7 +16,8 @@ export default function ViewItemPage() {
           id: parseInt(id)
         });
         const resp = await fetch(
-          `http://localhost:8089/?url=${encodeURIComponent(item.url)}`
+          `${process.env.READABILITY_PROXY_URL ||
+            "http://localhost:8089/"}?url=${encodeURIComponent(item.url)}`
         );
         const data = await resp.json();
         setArticleData(data);

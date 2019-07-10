@@ -7,6 +7,7 @@ import baseConfig, { lessCommonLoaders } from "./webpack.config.base";
 import WebappWebpackPlugin from "webapp-webpack-plugin";
 import path from "path";
 import WebpackPwaManifest from "webpack-pwa-manifest";
+import webpack = require("webpack");
 
 export default smart(baseConfig, {
   mode: "production",
@@ -65,6 +66,9 @@ export default smart(baseConfig, {
           sizes: [96, 128, 192, 256, 384, 512] // multiple sizes
         }
       ]
+    }),
+    new webpack.DefinePlugin({
+      "process.env.READABILITY_PROXY_URL": process.env.READABILITY_PROXY_URL
     })
   ]
 });

@@ -1,12 +1,18 @@
 {
   "version": 2,
   "name": "hn-offline",
+
+  "env": {
+    "READABILITY_PROXY_URL": "/readability-proxy/"
+  },
+
   "builds": [
     {
       "src": "package.json",
       "use": "@now/static-build",
       "config": { "distDir": "dist" }
-    }
+    },
+    { "src": "readability-proxy/index.js", "use": "@now/node" }
   ],
   "routes": [
     {
@@ -15,6 +21,7 @@
       "dest": "/static/$1"
     },
     { "src": "/favicon.ico", "dest": "/favicon.ico" },
+    { "src": "readability-proxy/index.js", "dest": "/readability-proxy/" },
     { "src": "/asset-manifest.json", "dest": "/asset-manifest.json" },
     { "src": "/manifest.json", "dest": "/manifest.json" },
     { "src": "/precache-manifest.(.*)", "dest": "/precache-manifest.$1" },

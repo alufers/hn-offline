@@ -5,7 +5,7 @@ const { send } = require("micro");
 const cors = require("micro-cors")();
 const Readability = require("./Readability");
 
-module.exports = cors(async (req, res) => {
+module.exports = async (req, res) => {
   if (req.method === "OPTIONS") {
     return send(res, 200, "ok!");
   }
@@ -34,4 +34,4 @@ module.exports = cors(async (req, res) => {
   dom.window.document.querySelectorAll("script").forEach(node => node.remove);
   const article = new Readability(dom.window.document).parse();
   return article;
-});
+};

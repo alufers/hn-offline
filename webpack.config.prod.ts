@@ -6,6 +6,7 @@ import { smart } from "webpack-merge";
 import baseConfig, { lessCommonLoaders } from "./webpack.config.base";
 import WebappWebpackPlugin from "webapp-webpack-plugin";
 import path from "path";
+import WebpackPwaManifest from "webpack-pwa-manifest";
 
 export default smart(baseConfig, {
   mode: "production",
@@ -49,6 +50,21 @@ export default smart(baseConfig, {
     new WebappWebpackPlugin({
       logo: path.join(__dirname, "src/resources/logo.png"),
       prefix: "static/"
+    }),
+    new WebpackPwaManifest({
+      name: "HN Offline",
+      short_name: "HN Off",
+      description: "An offlinew viewer for HN.",
+      start_url: "/",
+      background_color: "#ffffff",
+      crossorigin: "use-credentials", //can be null, use-credentials or anonymous,
+      display: "standalone",
+      icons: [
+        {
+          src: path.join(__dirname, "src/resources/logo.png"),
+          sizes: [96, 128, 192, 256, 384, 512] // multiple sizes
+        }
+      ]
     })
   ]
 });

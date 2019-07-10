@@ -7,7 +7,6 @@ import ServiceWorkerWebpackPlugin from "serviceworker-webpack-plugin";
 
 const cssModulesNamePattern = "[sha1:hash:hex:4]";
 export const cssCommonLoaders = [
-  "css-modules-typescript-loader",
   {
     loader: "css-loader", // translates CSS into CommonJS,
     options: {

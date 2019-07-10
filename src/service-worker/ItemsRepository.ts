@@ -1,9 +1,9 @@
 import Item from "../types/Item";
+import ItemWithPopulatedChildren from "../types/ItemWithPopulatedChildren";
 import AppSyncManager, { ITEM_SYNC_TIME } from "./AppSyncManager";
 import awaitIDBRequest from "./util/awaitIDBRequest";
 import awaitIDBTransaction from "./util/awaitIDBTransaction";
 import createAsyncThrottle from "./util/createAsyncThrottle";
-import ItemWithPopulatedChildren from "../types/ItemWithPopulatedChildren";
 
 export default class ItemsRepository {
   constructor(public asm: AppSyncManager) {}

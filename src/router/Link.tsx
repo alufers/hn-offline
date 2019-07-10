@@ -1,7 +1,7 @@
-import { ComponentChildren, Attributes } from "preact";
-import useRouter from "./useRouter";
+import { Attributes, ComponentChildren } from "preact";
 import useCompiledPathRegexp from "./useCompiledPathRegexp";
 import useLocation from "./useLocation";
+import useRouter from "./useRouter";
 
 export default ({
   to,

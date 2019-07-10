@@ -1,9 +1,9 @@
 import { Attributes } from "preact";
 import { Link } from "../router";
+import Score from "../Score";
 import Item from "../types/Item";
 import timeAgoFromTimestamp from "../util/timeAgoFromTimestamp";
 import "./style.less";
-import Score from "../Score";
 
 export interface ItemHeadProps extends Attributes {
   item: Item;

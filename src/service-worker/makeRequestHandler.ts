@@ -1,5 +1,4 @@
 import MessageType from "../types/MessageType.enum";
-import Item from "../types/Item";
 import AppSyncManager from "./AppSyncManager";
 
 /**

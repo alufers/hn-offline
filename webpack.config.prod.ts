@@ -1,9 +1,9 @@
+import BabelMinifyPlugin from "babel-minify-webpack-plugin";
+import { CleanWebpackPlugin } from "clean-webpack-plugin";
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import OptimizeCSSAssetsPlugin from "optimize-css-assets-webpack-plugin";
 import { smart } from "webpack-merge";
 import baseConfig, { lessCommonLoaders } from "./webpack.config.base";
-import BabelMinifyPlugin from "babel-minify-webpack-plugin";
-import OptimizeCSSAssetsPlugin from "optimize-css-assets-webpack-plugin";
-import MiniCssExtractPlugin from "mini-css-extract-plugin";
-import { CleanWebpackPlugin } from "clean-webpack-plugin";
 
 export default smart(baseConfig, {
   mode: "production",

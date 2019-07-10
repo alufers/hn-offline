@@ -1,9 +1,8 @@
-import ItemWithPopulatedChildren from "../types/ItemWithPopulatedChildren";
 import { Attributes } from "preact";
 import { useMemo, useState } from "preact/hooks";
-import "./style.less";
-import Score from "../Score";
+import ItemWithPopulatedChildren from "../types/ItemWithPopulatedChildren";
 import timeAgoFromTimestamp from "../util/timeAgoFromTimestamp";
+import "./style.less";
 
 export default function Comment({
   item

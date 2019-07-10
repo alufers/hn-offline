@@ -1,8 +1,4 @@
-import useLocation from "./useLocation";
-import useRouter from "./useRouter";
-import { ComponentType } from "preact";
-import { useMemo, useContext } from "preact/hooks";
-import ParamsContext from "./ParamsContext";
+import { useMemo } from "preact/hooks";
 
 function escapeRegExp(str: string) {
   return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); // $& means the whole matched string

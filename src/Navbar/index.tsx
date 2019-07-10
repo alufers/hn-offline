@@ -1,9 +1,8 @@
-import { h } from "preact";
-import "./style.less";
 import DropdownContainer from "../DropdownContainer";
-import SyncDropdownContent from "./SyncDropdownContent";
 import { Link } from "../router";
-h;
+import "./style.less";
+import SyncDropdownContent from "./SyncDropdownContent";
+
 export default () => {
   return (
     <div styleName="navbar">

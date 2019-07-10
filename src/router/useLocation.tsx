@@ -1,5 +1,5 @@
-import useRouter from "./useRouter";
 import { useEffect, useState } from "preact/hooks";
+import useRouter from "./useRouter";
 
 export default function useLocation() {
   const router = useRouter();

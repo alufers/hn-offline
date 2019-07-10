@@ -1,7 +1,7 @@
-import AppSyncManager, { ITEM_SYNC_TIME } from "./AppSyncManager";
 import ItemList from "../types/ItemList";
-import awaitIDBTransaction from "./util/awaitIDBTransaction";
+import AppSyncManager, { ITEM_SYNC_TIME } from "./AppSyncManager";
 import awaitIDBRequest from "./util/awaitIDBRequest";
+import awaitIDBTransaction from "./util/awaitIDBTransaction";
 import createAsyncThrottle from "./util/createAsyncThrottle";
 
 // FIve minutes of caching

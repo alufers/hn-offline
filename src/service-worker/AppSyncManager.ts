@@ -1,5 +1,5 @@
-import ItemsRepository from "./ItemsRepository";
 import ItemListsRepository from "./ItemListsRepository";
+import ItemsRepository from "./ItemsRepository";
 
 export const ITEM_SYNC_TIME = 1000 * 60 * 5; 
 

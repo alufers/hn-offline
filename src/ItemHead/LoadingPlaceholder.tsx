@@ -1,7 +1,5 @@
-import { h } from "preact";
-import Item from "../types/Item";
-import "./style.less";
 import Score from "../Score";
+import "./style.less";
 
 export default () => {
   return (

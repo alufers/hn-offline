@@ -1,11 +1,10 @@
-import { h, render } from "preact";
+import { render } from "preact";
 import "preact/hooks";
-import App from "./App";
 import runtime from "serviceworker-webpack-plugin/lib/runtime";
+import App from "./App";
+import { Router, RouterContext } from "./router";
 import ServiceWorkerClient from "./ServiceWorkerClient";
-import MessageType from "./types/MessageType.enum";
 import _ServiceWorkerClientContext from "./ServiceWorkerClient/ServiceWorkerClientContext";
-import { Router, RouterContext, Route } from "./router";
 
 if (process.env.NODE_ENV === "development") {
   console.log("Runnning in development mode!");

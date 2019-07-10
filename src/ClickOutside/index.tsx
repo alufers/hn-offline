@@ -1,5 +1,5 @@
-import { ComponentChildren, ComponentType } from "preact";
-import { useEffect, useRef, Ref } from "preact/hooks";
+import { ComponentType } from "preact";
+import { Ref, useEffect, useRef } from "preact/hooks";
 
 export default ({
   inside: Inside,

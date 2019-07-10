@@ -1,9 +1,9 @@
 import { useEffect, useState } from "preact/hooks";
-import MessageType from "../types/MessageType.enum";
 import ItemHead from "../ItemHead";
 import LoadingPlaceholder from "../ItemHead/LoadingPlaceholder";
 import useServiceWorkerClient from "../ServiceWorkerClient/useServiceWorkerClient";
 import Item from "../types/Item";
+import MessageType from "../types/MessageType.enum";
 
 export default () => {
   const [isLoading, setIsLoading] = useState(false);

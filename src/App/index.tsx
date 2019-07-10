@@ -1,11 +1,10 @@
-import { h } from "preact";
 import Footer from "../Footer";
-import Navbar from "../Navbar";
-import "./style.less";
-import ItemsList from "../ItemsList";
 import ItemCommentsPage from "../ItemCommentsPage";
-
+import ItemsList from "../ItemsList";
+import Navbar from "../Navbar";
 import { Route } from "../router";
+import "./style.less";
+
 
 export default () => {
   return (

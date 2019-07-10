@@ -1,9 +1,8 @@
-import path from "path";
-import webpack from "webpack";
 import HtmlWebpackPlugin from "html-webpack-plugin";
-import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 import { Plugin as IconFontPlugin } from "icon-font-loader";
+import path from "path";
 import ServiceWorkerWebpackPlugin from "serviceworker-webpack-plugin";
+import webpack from "webpack";
 
 const cssModulesNamePattern = "[sha1:hash:hex:4]";
 export const cssCommonLoaders = [

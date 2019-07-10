@@ -1,11 +1,11 @@
 import { useEffect, useState } from "preact/hooks";
-import MessageType from "../types/MessageType.enum";
+import Comment from "../Comment";
 import ItemHead from "../ItemHead";
 import LoadingPlaceholder from "../ItemHead/LoadingPlaceholder";
 import { useParam } from "../router";
 import useServiceWorkerClient from "../ServiceWorkerClient/useServiceWorkerClient";
 import ItemWithPopulatedChildren from "../types/ItemWithPopulatedChildren";
-import Comment from "../Comment";
+import MessageType from "../types/MessageType.enum";
 import "./style.less";
 
 export default () => {

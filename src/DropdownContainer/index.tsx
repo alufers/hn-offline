@@ -1,7 +1,7 @@
-import "./style.less";
 import { ComponentChildren, ComponentType } from "preact";
-import { useState, Ref } from "preact/hooks";
+import { Ref, useState } from "preact/hooks";
 import ClickOutside from "../ClickOutside";
+import "./style.less";
 
 export default ({
   children,

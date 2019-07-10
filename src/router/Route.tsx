@@ -1,9 +1,8 @@
-import useLocation from "./useLocation";
-import useRouter from "./useRouter";
-import { ComponentType, Attributes } from "preact";
-import { useMemo, useContext } from "preact/hooks";
+import { Attributes, ComponentType } from "preact";
+import { useContext, useMemo } from "preact/hooks";
 import ParamsContext from "./ParamsContext";
 import useCompiledPathRegexp from "./useCompiledPathRegexp";
+import useLocation from "./useLocation";
 
 export default ({
   path,

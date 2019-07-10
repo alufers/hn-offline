@@ -3,6 +3,7 @@ import { Link } from "../router";
 import Item from "../types/Item";
 import timeAgoFromTimestamp from "../util/timeAgoFromTimestamp";
 import "./style.less";
+import Score from "../Score";
 
 export interface ItemHeadProps extends Attributes {
   item: Item;
@@ -12,7 +13,7 @@ export default ({ item }: ItemHeadProps) => {
   return (
     <div styleName="item">
       {/* <div styleName="rank">1.</div> */}
-      <div styleName="score">{item.score}</div>
+      <Score>{item.score}</Score>
       <div styleName="info-column">
         <div styleName="main-row">
           <Link to={`/item/${item.id}/view`} styleName="title">

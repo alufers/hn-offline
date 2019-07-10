@@ -1,13 +1,14 @@
 import { h } from "preact";
 import Item from "../types/Item";
 import "./style.less";
+import Score from "../Score";
 
 export default () => {
   return (
     <div styleName="item">
-      <div styleName="score">
+      <Score>
         <div styleName="loading-placeholder narrow" />
-      </div>
+      </Score>
       <div styleName="info-column">
         <div styleName="main-row">
           <span href="#" styleName="title">

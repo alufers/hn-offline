@@ -16,13 +16,22 @@ module.exports = cors(async (req, res) => {
   }
   const resp = await fetch(urlToFetch);
   const text = await resp.text();
-  const dom = new JSDOM(text, {});
+  const dom = new JSDOM(text);
   dom.window.document.querySelectorAll("img").forEach(node => {
     const resolved = url.resolve(urlToFetch, node.src.toString());
     node.src = resolved; // make image urls absolute
     //TODO: Resolving of srcsets
-    node.setAttribute("srcset", ""); // disable srcsets
+    node.removeAttribute("srcset"); // disable srcsets
   });
+  dom.window.document.querySelectorAll("a").forEach(node => {
+    if (node.href.startsWith("javascript:")) {
+      node.removeAttribute("href");
+      return;
+    }
+    const resolved = url.resolve(urlToFetch, node.href.toString());
+    node.href = resolved; // make link urls absolute
+  });
+  dom.window.document.querySelectorAll("script").forEach(node => node.remove);
   const article = new Readability(dom.window.document).parse();
   return article;
 });

@@ -7,7 +7,9 @@ import MessageType from "./common/MessageType.enum";
 import _ServiceWorkerClientContext from "./ServiceWorkerClient/ServiceWorkerClientContext";
 import { Router, RouterContext, Route } from "./router";
 
-console.log("APP INIT");
+if (process.env.NODE_ENV === "development") {
+  console.log("Runnning in development mode!");
+}
 
 const ServiceWorkerClientContext = _ServiceWorkerClientContext as any;
 

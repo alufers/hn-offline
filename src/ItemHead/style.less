@@ -111,6 +111,9 @@
   display: inline-block;
   &.wide {
     width: 480px;
+    @media (max-width: 560px) {
+      width: calc(100vw - 100px);
+    }
   }
   &.narrow {
     width: 25px;

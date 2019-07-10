@@ -30,6 +30,9 @@ export default class ItemsRepository {
       );
     }
     const item: Item = await resp.json();
+    if (!item) {
+      throw new Error("Item is falsy");
+    }
     item._lastSync = new Date();
     await this.upsertItem(item);
     return item;

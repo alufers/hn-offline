@@ -6,9 +6,15 @@
   flex-wrap: nowrap;
   margin-bottom: 8px;
   .inside {
+    flex-grow: 999;
     color: inherit;
     .text {
+      max-width: calc(100vw - 50px);
+      display: inline-block;
       color: #444;
+      overflow-wrap: break-word;
+      word-wrap: break-word;
+      hyphens: auto;
     }
     .meta {
       font-size: 0.9rem;

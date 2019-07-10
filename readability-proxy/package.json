@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "jsdom": "^15.1.1",
+    "micro": "^9.3.4",
+    "node-fetch": "^2.6.0"
+  },
+  "devDependencies": {
+    "micro-dev": "^3.0.0"
+  },
+  "scripts": {
+    "start": "micro",
+    "dev": "micro-dev"
+  },
+  "main": "index.js"
+}

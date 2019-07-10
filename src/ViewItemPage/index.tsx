@@ -28,7 +28,12 @@ export default function ViewItemPage() {
     doFetch();
   }, [id]);
   if (!loading) {
-    return <div dangerouslySetInnerHTML={{ __html: articleData.content }} />;
+    return (
+      <div>
+        <h1>{articleData.title}</h1>
+        <div dangerouslySetInnerHTML={{ __html: articleData.content }} />
+      </div>
+    );
   } else {
     return <div>Loading...</div>;
   }

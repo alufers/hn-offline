@@ -54,7 +54,7 @@ export default smart(baseConfig, {
     new WebpackPwaManifest({
       name: "HN Offline",
       short_name: "HN Off",
-      description: "An offlinew viewer for HN.",
+      description: "An offline viewer for HN.",
       start_url: "/",
       background_color: "#ffffff",
       crossorigin: "use-credentials", //can be null, use-credentials or anonymous,

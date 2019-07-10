@@ -111,7 +111,10 @@ const config: webpack.Configuration = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: "HN Offline"
+      title: "HN Offline",
+      meta: {
+        viewport: "width=device-width, initial-scale=1"
+      }
     }),
     //new BundleAnalyzerPlugin(),
     new IconFontPlugin({

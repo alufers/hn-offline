@@ -10,7 +10,7 @@ export default function Comment({
   return (
     <div styleName="comment">
       <strong>{item.by}</strong>
-      <p dangerouslySetInnerHTML={htmlData}>{item.text}</p>
+      <p dangerouslySetInnerHTML={htmlData} />
       {item.populatedChildren &&
         item.populatedChildren.map(child => (
           <Comment key={child.id} item={child} />

@@ -1,6 +1,47 @@
 @import "../common.less";
 
 .comment {
-  padding-left: 10px;
-  border-left: 3px #eee solid;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  .inside {
+    color: inherit;
+    .meta {
+      font-size: 0.9rem;
+      color: #666;
+      text-decoration: none;
+      .meta-item {
+        margin-right: 10px;
+      }
+      .time {
+        color: inherit;
+      }
+      .username {
+        color: inherit;
+      }
+      .collapse-button {
+        cursor: pointer;
+        color: inherit;
+
+        margin-top: 5px;
+        &:after {
+          position: relative;
+          top: 3px;
+          icon-font: url("../resources/collapse_arrow.svg");
+        }
+      }
+    }
+  }
+  .collapse-line {
+    align-self: stretch;
+    width: 0;
+    padding-left: 10px;
+    border-left: 3px #eee solid;
+    cursor: pointer;
+    transition: border-left 200ms ease-in-out;
+    &:hover,
+    &.highlight-hint {
+      border-left: 3px #dddddd solid;
+    }
+  }
 }

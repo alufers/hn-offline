@@ -14,7 +14,13 @@ const handler = async (req, res) => {
     send(res, 400, { error: "Bad URL type (not a string)" });
     return;
   }
-  const resp = await fetch(urlToFetch);
+  let resp;
+  try {
+    resp = await fetch(urlToFetch);
+  } catch (e) {
+    send(res, 502, { error: "Failed to request the article." });
+    console.error(e);
+  }
   const text = await resp.text();
   const dom = new JSDOM(text);
   dom.window.document.querySelectorAll("img").forEach(node => {
@@ -33,7 +39,16 @@ const handler = async (req, res) => {
   });
   dom.window.document.querySelectorAll("script").forEach(node => node.remove);
   const article = new Readability(dom.window.document).parse();
-  return article;
+  res.setHeader("Cache-Control", "s-maxage=31536000, max-age=0");
+  return {
+    title: article.title,
+    byline: article.byline,
+    content: article.content,
+    excerpt: article.excerpt,
+    length: article.length,
+    scrapedOn: new Date(),
+    originalURL: urlToFetch
+  };
 };
 
 if (process.env.NODE_ENV === "development") {

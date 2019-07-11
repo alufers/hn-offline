@@ -6,7 +6,7 @@ import useRouter from "./useRouter";
 export default ({
   to,
   exact,
-  activeCx,
+  activeCx = "",
   children,
   ...props
 }: {
@@ -24,9 +24,12 @@ export default ({
     ev.preventDefault();
     router.push(to);
   };
-  let classN = (props as any).class as string;
+  let classN = ((props as any).class as string) || "";
+  if (classN != "") {
+    classN += " ";
+  }
   if (active) {
-    classN += " " + activeCx;
+    classN += activeCx;
   }
   return (
     <a onClick={handleClick} href={to} class={classN} {...props}>

@@ -1,0 +1,40 @@
+@import "../common.less";
+
+.article-content {
+  p {
+    line-height: 1.7;
+  }
+  img {
+    max-width: 100%;
+    display: block;
+    margin: 0 auto;
+  }
+  figcaption {
+    text-align: center;
+    color: #777;
+  }
+  figure {
+    text-align: center;
+    p,
+    figcaption,
+    span {
+      text-align: center;
+      color: #777;
+    }
+  }
+  p[itemprop="associatedMedia"] {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 */
+    padding-top: 25px;
+    height: 0;
+    width: 100%;
+    iframe {
+      border: 0;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
+}

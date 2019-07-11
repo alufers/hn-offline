@@ -1,3 +1,5 @@
+@import "../common.less";
+
 body {
   font-family: "Helvetica", "Arial", sans-serif;
   color: #555;
@@ -15,12 +17,34 @@ html {
     margin-block-start: 0.5em;
     margin-block-end: 0.5em;
   }
+  a {
+    color: @primary-color;
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  code,
+  pre {
+    background: #eee;
+  }
+
+  code {
+    padding: 2px 4px;
+    vertical-align: text-bottom;
+  }
+
+  pre {
+    padding: 1em;
+  }
 }
 
 .container {
+  margin: 0 auto;
+  max-width: 50em;
   width: 80vw;
   margin: 0 auto;
   @media (max-width: 767px) {
-    width: calc(100vw - 20px);
+    width: calc(100vw - 40px);
   }
 }

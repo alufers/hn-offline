@@ -1,8 +1,9 @@
-import { useEffect, useState } from "preact/hooks";
+import { useEffect, useState, useMemo } from "preact/hooks";
 import { useParam } from "../router";
 import useServiceWorkerClient from "../ServiceWorkerClient/useServiceWorkerClient";
 import Item from "../types/Item";
 import MessageType from "../types/MessageType.enum";
+import "./style.less";
 
 export default function ViewItemPage() {
   const id = useParam("id");
@@ -27,11 +28,14 @@ export default function ViewItemPage() {
     }
     doFetch();
   }, [id]);
+  const html = useMemo(() => articleData && { __html: articleData.content }, [
+    articleData ? articleData.content : null
+  ]);
   if (!loading) {
     return (
-      <div>
+      <div styleName="article-content">
         <h1>{articleData.title}</h1>
-        <div dangerouslySetInnerHTML={{ __html: articleData.content }} />
+        <div dangerouslySetInnerHTML={html} />
       </div>
     );
   } else {

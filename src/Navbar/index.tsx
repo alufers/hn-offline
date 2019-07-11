@@ -6,9 +6,10 @@ import SyncDropdownContent from "./SyncDropdownContent";
 export default () => {
   return (
     <div styleName="navbar">
-      <div styleName="brand">
-        <Link to="/">HN offline</Link>
-      </div>
+      <Link to="/" styleName="brand">
+        HN offline
+      </Link>
+
       <div styleName="spacer" />
 
       <DropdownContainer

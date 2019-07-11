@@ -5,7 +5,7 @@ const { send } = require("micro");
 const cors = require("micro-cors")();
 const Readability = require("./Readability");
 
-module.exports = async (req, res) => {
+const handler = async (req, res) => {
   if (req.method === "OPTIONS") {
     return send(res, 200, "ok!");
   }
@@ -35,3 +35,9 @@ module.exports = async (req, res) => {
   const article = new Readability(dom.window.document).parse();
   return article;
 };
+
+if (process.env.NODE_ENV === "development") {
+  module.exports = cors(handler);
+} else {
+  module.exports = handler;
+}

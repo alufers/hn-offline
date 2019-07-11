@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "canvas": "file:package-stubs/canvas",
+    "cross-env": "^5.2.0",
     "jsdom": "^15.1.1",
     "micro": "^9.3.4",
     "micro-cors": "^0.1.1",
@@ -10,8 +11,8 @@
     "micro-dev": "^3.0.0"
   },
   "scripts": {
-    "start": "micro",
-    "dev": "micro-dev"
+    "start": "cross-env NODE_ENV=production micro",
+    "dev": "cross-env NODE_ENV=development micro-dev"
   },
   "main": "index.js"
 }

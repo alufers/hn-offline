@@ -3,8 +3,7 @@ import AppSyncManager, { ITEM_SYNC_TIME } from "./AppSyncManager";
 import awaitIDBRequest from "./util/awaitIDBRequest";
 import awaitIDBTransaction from "./util/awaitIDBTransaction";
 import createAsyncThrottle from "./util/createAsyncThrottle";
-
-// FIve minutes of caching
+import ItemListKind from "../types/ItemListKind.enum";
 
 export default class ItemListsRepository {
   constructor(public asm: AppSyncManager) {}
@@ -13,6 +12,18 @@ export default class ItemListsRepository {
     const os = transaction.objectStore("itemLists");
     os.put(itemList);
     await awaitIDBTransaction(transaction);
+  }
+
+  /**
+   * Returns an item list by the kind from indexedDB.
+   */
+  async getItemList(kind: ItemListKind) {
+    const trans = this.asm.db.transaction(["itemLists"], "readonly");
+    const itemListsStore = trans.objectStore("itemLists");
+    const itemList = (await awaitIDBRequest(
+      itemListsStore.get(kind)
+    )) as ItemList;
+    return itemList || null;
   }
 
   async syncTopStories() {
@@ -31,8 +42,9 @@ export default class ItemListsRepository {
       throw new Error("itemIds is not an array");
     }
     await this.upsertItemList({
-      kind: "topstories",
-      itemIds
+      kind: ItemListKind.TopStories,
+      itemIds,
+      lastSync: new Date()
     });
     itemIds = itemIds.slice(0, 30);
 
@@ -62,6 +74,9 @@ export default class ItemListsRepository {
     const topStories = (await awaitIDBRequest(
       itemListsStore.get("topstories")
     )) as ItemList;
+    if (!topStories) {
+      return [];
+    }
     return await this.asm.itemsRepository.getItemsByIds(
       topStories.itemIds,
       trans

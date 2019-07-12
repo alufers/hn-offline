@@ -1,14 +1,41 @@
 import ItemListsRepository from "./ItemListsRepository";
 import ItemsRepository from "./ItemsRepository";
+import BaseJob from "./jobs/BaseJob";
+import createAsyncThrottle from "./util/createAsyncThrottle";
+import EventEmitter from "./util/EventEmitter";
 
-export const ITEM_SYNC_TIME = 1000 * 60 * 5; 
-
-export default class AppSyncManager {
+// Five minutes of caching
+export const ITEM_SYNC_TIME = 1000 * 60 * 5;
+export const MAX_SYNC_CONCURRENCY = 10;
+export default class AppSyncManager extends EventEmitter<{
+  jobQueueLengthChange: [number];
+}> {
   db: IDBDatabase;
 
   itemsRepository = new ItemsRepository(this);
   itemListsRepository = new ItemListsRepository(this);
-  constructor() {}
+
+  jobQueue: BaseJob[] = [];
+  jobThrottle = createAsyncThrottle(MAX_SYNC_CONCURRENCY);
+
+  async addJob(job: BaseJob) {
+    console.log("Job added", job);
+    for (const otherJob of this.jobQueue) {
+      if (job.isSame(otherJob)) {
+        return;
+      }
+    }
+    if (!job.omitCacheCheck && (await job.isCached())) {
+      return;
+    }
+    this.jobQueue.push(job);
+    this.emit("jobQueueLengthChange", this.jobQueue.length);
+    this.jobThrottle(async () => {
+      await job.performJob();
+      this.jobQueue.splice(this.jobQueue.indexOf(job), 1);
+      this.emit("jobQueueLengthChange", this.jobQueue.length);
+    });
+  }
 
   async init() {
     const openRequest = self.indexedDB.open("HnOffline", 1);
@@ -26,5 +53,4 @@ export default class AppSyncManager {
       openRequest.addEventListener("error", () => rej(openRequest.error));
     });
   }
- 
 }

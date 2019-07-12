@@ -1,4 +1,7 @@
+import ItemListKind from "./ItemListKind.enum";
+
 export default interface ItemList {
-  kind: "topstories";
+  kind: ItemListKind;
   itemIds: number[];
+  lastSync: Date;
 }

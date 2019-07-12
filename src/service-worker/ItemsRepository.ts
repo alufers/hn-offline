@@ -49,6 +49,10 @@ export default class ItemsRepository {
     return cachedItem;
   }
 
+  /**
+   * Returns an item by id from indexedDB.
+   * @param id number
+   */
   async getItemById(id: number) {
     const transaction = this.asm.db.transaction(["items"], "readonly");
     const itemsOs = transaction.objectStore("items");

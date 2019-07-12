@@ -1,5 +1,7 @@
 import MessageType from "../types/MessageType.enum";
 import AppSyncManager from "./AppSyncManager";
+import SyncItemListJob from "./jobs/SyncItemListJob";
+import ItemListKind from "../types/ItemListKind.enum";
 
 /**
  * Returns a fucntion which responds to requests sent from the frontend.
@@ -14,11 +16,6 @@ export default function makeRequestHandler(asm: AppSyncManager) {
   }
 
   registerTypeHandler(MessageType.GetItems, async data => {
-    try {
-      await asm.itemListsRepository.syncTopStories();
-    } catch (e) {
-      console.error(e);
-    }
     return await asm.itemListsRepository.getStructuredItems();
   });
 
@@ -38,6 +35,12 @@ export default function makeRequestHandler(asm: AppSyncManager) {
     } catch (e) {
       console.error(e);
     }
+  });
+  registerTypeHandler(MessageType.Sync, async () => {
+    const job = new SyncItemListJob(asm, ItemListKind.TopStories);
+    job.omitCacheCheck = true;
+    asm.addJob(job);
+    return {};
   });
   return function({ type, data }) {
     return handlers[type](data);

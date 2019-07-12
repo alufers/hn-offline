@@ -43,7 +43,7 @@ export default class SyncItemListJob extends BaseJob {
       itemIds,
       lastSync: new Date()
     });
-    for (const itemId of itemIds.slice(0, 10)) {
+    for (const itemId of itemIds.slice(0, 30)) {
       this.addChildJob(new SyncItemJob(this.asm, itemId));
     }
   }

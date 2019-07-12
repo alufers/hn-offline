@@ -14,9 +14,8 @@ export default () => {
         <Route path="/" component={ItemsList} exact />
         <Route path="/item/:id/comments" component={ItemCommentsPage} />
         <Route path="/item/:id/view" component={ViewItemPage} />
-
-        <Footer />
       </div>
+      <Footer />
     </div>
   );
 };

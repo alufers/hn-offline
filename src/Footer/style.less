@@ -1,0 +1,21 @@
+@import "../common.less";
+
+.footer {
+  .shaded-box();
+  margin-top: 10px;
+  background: #eee;
+  padding: 20px 0px;
+  .container {
+    width: 80vw;
+    margin: 0 auto;
+    @media (max-width: 767px) {
+      width: calc(100vw - 40px);
+    }
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    .spacer {
+      flex-grow: 9999;
+    }
+  }
+}

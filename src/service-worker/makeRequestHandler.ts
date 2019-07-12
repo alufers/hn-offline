@@ -10,7 +10,7 @@ export default function makeRequestHandler(asm: AppSyncManager) {
   const handlers = [];
   function registerTypeHandler(
     type: MessageType,
-    handler: (data: any) => Promise<any>
+    handler: (data: any, subscriptionCallback?: Function) => Promise<any> | any
   ) {
     handlers[type] = handler;
   }
@@ -42,7 +42,17 @@ export default function makeRequestHandler(asm: AppSyncManager) {
     asm.addJob(job);
     return {};
   });
-  return function({ type, data }) {
-    return handlers[type](data);
+  registerTypeHandler(MessageType.SubscribeJobQueueLength, (_, cb) => {
+    function eventHandler(newLength: number) {
+      cb(newLength);
+    }
+    cb(asm.jobQueue.length);
+    asm.on("jobQueueLengthChange", eventHandler);
+    return () => {
+      asm.off("jobQueueLengthChange", eventHandler);
+    };
+  });
+  return function({ type, data }, subscriptionCallback) {
+    return handlers[type](data, subscriptionCallback);
   };
 }

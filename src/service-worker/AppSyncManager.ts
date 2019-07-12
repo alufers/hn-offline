@@ -19,7 +19,6 @@ export default class AppSyncManager extends EventEmitter<{
   jobThrottle = createAsyncThrottle(MAX_SYNC_CONCURRENCY);
 
   async addJob(job: BaseJob) {
-    console.log("Job added", job);
     for (const otherJob of this.jobQueue) {
       if (job.isSame(otherJob)) {
         return;

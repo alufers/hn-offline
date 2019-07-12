@@ -24,7 +24,8 @@ export default class EventEmitter<
     }
     return this._lis[event].length;
   }
-  off(event: string, handler: Function) {
+  off<EventType extends keyof EV>( event: EventType,
+    handler: (...args: EV[EventType]) => void) {
     if (!this._lis[event]) {
       return this;
     }

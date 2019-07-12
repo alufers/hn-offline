@@ -31,9 +31,16 @@ export default class ServiceWorkerClient {
     });
   }
 
+  /**
+   * Sends a subscription message to the server and returns a cancellation function.
+   * @param type
+   * @param data
+   * @param callback
+   */
   subscribe<T>(type: MessageType, data: any, callback: (data: T) => void) {
     waitForSW();
-    var msgChan = new MessageChannel();
+    const msgChan = new MessageChannel();
+    const cancelChan = new MessageChannel();
 
     // Handler for recieving message reply from service worker
     msgChan.port1.onmessage = function(event) {
@@ -44,8 +51,14 @@ export default class ServiceWorkerClient {
       }
     };
     // Send message to service worker along with port for reply
-    navigator.serviceWorker.controller.postMessage({ type, data }, [
-      msgChan.port2
-    ]);
+    navigator.serviceWorker.controller.postMessage(
+      { type, data, isSubscription: true },
+      [msgChan.port2, cancelChan.port1]
+    );
+
+    return () => {
+      console.log("SENDING CANCEL");
+      cancelChan.port2.postMessage("cancel");
+    };
   }
 }

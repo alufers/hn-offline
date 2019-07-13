@@ -9,7 +9,6 @@ export default function useSWSubscription<T>(
   const client = useServiceWorkerClient();
   const [value, setValue] = useState<T>(null);
   useEffect(() => {
-    console.log("SUBSCRIBING");
     return client.subscribe(msgType, data, setValue);
   }, [msgType, data, setValue]);
   return value;

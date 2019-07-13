@@ -1,4 +1,5 @@
 import MessageType from "../types/MessageType.enum";
+import randomId from "../util/randomId";
 
 const waitForSW = async () => {
   await navigator.serviceWorker.ready;
@@ -40,7 +41,8 @@ export default class ServiceWorkerClient {
   subscribe<T>(type: MessageType, data: any, callback: (data: T) => void) {
     waitForSW();
     const msgChan = new MessageChannel();
-    const cancelChan = new MessageChannel();
+    const subscriptionId = randomId();
+
 
     // Handler for recieving message reply from service worker
     msgChan.port1.onmessage = function(event) {
@@ -52,13 +54,12 @@ export default class ServiceWorkerClient {
     };
     // Send message to service worker along with port for reply
     navigator.serviceWorker.controller.postMessage(
-      { type, data, isSubscription: true },
-      [msgChan.port2, cancelChan.port1]
+      { type, data, isSubscription: true, subscriptionId },
+      [msgChan.port2]
     );
 
     return () => {
-      console.log("SENDING CANCEL");
-      cancelChan.port2.postMessage("cancel");
+      this.request(MessageType.CancelSubscription, { subscriptionId });
     };
   }
 }

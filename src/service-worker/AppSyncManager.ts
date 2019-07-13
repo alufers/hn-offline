@@ -6,7 +6,7 @@ import EventEmitter from "./util/EventEmitter";
 
 // Five minutes of caching
 export const ITEM_SYNC_TIME = 1000 * 60 * 5;
-export const MAX_SYNC_CONCURRENCY = 10;
+export const MAX_SYNC_CONCURRENCY = 30;
 export default class AppSyncManager extends EventEmitter<{
   jobQueueLengthChange: [number];
 }> {

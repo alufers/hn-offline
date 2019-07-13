@@ -9,9 +9,12 @@ export default () => {
     client.request(MessageType.Sync);
   };
   const jobQueueLength = useSWSubscription(MessageType.SubscribeJobQueueLength);
+  const isLoading = jobQueueLength > 0;
   return (
     <div>
-      <Button onClick={doSync}>Sync now</Button>
+      <Button onClick={doSync} loading={isLoading}>
+        {isLoading ? "Syncing..." : "Sync now"}
+      </Button>
       <div>Job queue: {jobQueueLength}</div>
     </div>
   );

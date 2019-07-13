@@ -3,7 +3,7 @@ const JSDOM = require("jsdom").JSDOM;
 const url = require("url");
 const { send } = require("micro");
 const cors = require("micro-cors")();
-const Readability = require("./Readability");
+const Readability = require("readability/Readability");
 
 const handler = async (req, res) => {
   if (req.method === "OPTIONS") {

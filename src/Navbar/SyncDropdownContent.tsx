@@ -10,6 +10,7 @@ export default () => {
   };
   const jobQueueLength = useSWSubscription(MessageType.SubscribeJobQueueLength);
   const isLoading = jobQueueLength > 0;
+  
   return (
     <div>
       <Button onClick={doSync} loading={isLoading}>

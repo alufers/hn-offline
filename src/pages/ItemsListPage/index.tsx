@@ -1,11 +1,11 @@
 import { useEffect, useState } from "preact/hooks";
-import ItemHead from "../ItemHead";
-import LoadingPlaceholder from "../ItemHead/LoadingPlaceholder";
-import useServiceWorkerClient from "../ServiceWorkerClient/useServiceWorkerClient";
-import Item from "../types/Item";
-import MessageType from "../types/MessageType.enum";
+import ItemHead from "../../ItemHead";
+import LoadingPlaceholder from "../../ItemHead/LoadingPlaceholder";
+import useServiceWorkerClient from "../../ServiceWorkerClient/useServiceWorkerClient";
+import Item from "../../types/Item";
+import MessageType from "../../types/MessageType.enum";
 
-export default () => {
+export default function ItemListPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [items, setItems] = useState(null);
   const serviceWorkerClient = useServiceWorkerClient();
@@ -34,4 +34,4 @@ export default () => {
   }
 
   return content;
-};
+}

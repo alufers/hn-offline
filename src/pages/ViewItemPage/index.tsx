@@ -1,8 +1,8 @@
 import { useEffect, useState, useMemo } from "preact/hooks";
-import { useParam } from "../router";
-import useServiceWorkerClient from "../ServiceWorkerClient/useServiceWorkerClient";
-import Item from "../types/Item";
-import MessageType from "../types/MessageType.enum";
+import { useParam } from "../../router";
+import useServiceWorkerClient from "../../ServiceWorkerClient/useServiceWorkerClient";
+import Item from "../../types/Item";
+import MessageType from "../../types/MessageType.enum";
 import "./style.less";
 
 export default function ViewItemPage() {

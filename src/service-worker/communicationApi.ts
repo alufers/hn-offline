@@ -14,7 +14,9 @@ export function registerFrontendRequestHandler(handler: Function) {
         event.ports[0].postMessage(await returnValue);
       }
     } catch (error) {
-      event.ports[0].postMessage({ error: error.toString() });
+      event.ports[0].postMessage({
+        error: error.toString() + "\n" + error.stack
+      });
     }
   });
 }

@@ -4,6 +4,7 @@ import baseConfig, { lessCommonLoaders } from "./webpack.config.base";
 
 export default smart(baseConfig, {
   mode: "development",
+  devtool: "inline-source-map",
   module: {
     rules: [
       {

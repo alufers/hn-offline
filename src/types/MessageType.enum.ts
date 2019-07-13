@@ -11,7 +11,8 @@ const enum MessageType {
   SubscribeToItem,
   SubscribeToManyItems,
   SubscribeToItemList,
-  GetItemsWhenReady
+  GetItemsWhenReady,
+  GetItemWithPopulatedChildrenWhenReady
 }
 
 export default MessageType;

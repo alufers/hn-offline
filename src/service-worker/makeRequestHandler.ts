@@ -159,6 +159,12 @@ export default function makeRequestHandler(asm: AppSyncManager) {
       return itemsToSend;
     }
   );
+  registerTypeHandler(
+    MessageType.GetItemWithPopulatedChildrenWhenReady,
+    ({ id }: { id: number }) => {
+      return asm.itemsRepository.getItemWithPopulatedChildrenWhenReady(id);
+    }
+  );
   return function(
     {
       type,

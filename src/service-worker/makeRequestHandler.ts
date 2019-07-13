@@ -1,7 +1,9 @@
+import Item from "../types/Item";
+import ItemListKind from "../types/ItemListKind.enum";
 import MessageType from "../types/MessageType.enum";
 import AppSyncManager from "./AppSyncManager";
 import SyncItemListJob from "./jobs/SyncItemListJob";
-import ItemListKind from "../types/ItemListKind.enum";
+import ItemList from "../types/ItemList";
 
 /**
  * Returns a fucntion which responds to requests sent from the frontend.
@@ -17,8 +19,10 @@ export default function makeRequestHandler(asm: AppSyncManager) {
   }
 
   registerTypeHandler(MessageType.CancelSubscription, async data => {
-    subscriptionCancellations[data.subscriptionId]();
-    delete subscriptionCancellations[data.subscriptionId];
+    if (subscriptionCancellations[data.subscriptionId]) {
+      subscriptionCancellations[data.subscriptionId]();
+      delete subscriptionCancellations[data.subscriptionId];
+    }
     return {};
   });
 
@@ -49,6 +53,7 @@ export default function makeRequestHandler(asm: AppSyncManager) {
     asm.addJob(job);
     return {};
   });
+
   registerTypeHandler(MessageType.SubscribeJobQueueLength, (_, cb) => {
     function eventHandler(newLength: number) {
       cb(newLength);
@@ -56,10 +61,53 @@ export default function makeRequestHandler(asm: AppSyncManager) {
     cb(asm.jobQueue.length);
     asm.on("jobQueueLengthChange", eventHandler);
     return () => {
-     
       asm.off("jobQueueLengthChange", eventHandler);
     };
   });
+  registerTypeHandler(
+    MessageType.SubscribeToItem,
+    ({ id }: { id: number }, cb) => {
+      let didSendBeforeInitial = false;
+      function eventHandler(item: Item) {
+        console.log("RECIEVED ITEM UPSERT");
+        if (item.id === id) {
+          cb(item);
+          didSendBeforeInitial = true;
+        }
+      }
+      // asm.itemsRepository.getItemById(id).then(item => {
+      //   if (!didSendBeforeInitial) {
+      //     return cb(item);
+      //   }
+      // }, console.error);
+      asm.itemsRepository.on("itemUpsert", eventHandler);
+      return () => {
+        console.log("subscription cancelled");
+        asm.itemsRepository.off("itemUpsert", eventHandler);
+      };
+    }
+  );
+  registerTypeHandler(
+    MessageType.SubscribeToItemList,
+    ({ kind }: { kind: ItemListKind }, cb) => {
+      let didSendBeforeInitial = false;
+      function eventHandler(il: ItemList) {
+        if (il.kind === kind) {
+          cb(il);
+          didSendBeforeInitial = true;
+        }
+      }
+      // asm.itemListsRepository.getItemList(kind).then(il => {
+      //   if (!didSendBeforeInitial) {
+      //     return cb(il);
+      //   }
+      // }, console.error);
+      asm.itemListsRepository.on("itemListUpserted", eventHandler);
+      return () => {
+        asm.itemListsRepository.off("itemListUpserted", eventHandler);
+      };
+    }
+  );
   return function(
     {
       type,

@@ -4,14 +4,20 @@ import AppSyncManager, { ITEM_SYNC_TIME } from "./AppSyncManager";
 import awaitIDBRequest from "./util/awaitIDBRequest";
 import awaitIDBTransaction from "./util/awaitIDBTransaction";
 import createAsyncThrottle from "./util/createAsyncThrottle";
+import EventEmitter from "./util/EventEmitter";
 
-export default class ItemsRepository {
-  constructor(public asm: AppSyncManager) {}
+export default class ItemsRepository extends EventEmitter<{
+  itemUpsert: [Item];
+}> {
+  constructor(public asm: AppSyncManager) {
+    super();
+  }
   async upsertItem(item: Item) {
     const transaction = this.asm.db.transaction(["items"], "readwrite");
     const os = transaction.objectStore("items");
     os.put(item);
     await awaitIDBTransaction(transaction);
+    this.emit("itemUpsert", item);
   }
 
   /**

@@ -19,7 +19,7 @@ export default class ServiceWorkerClient {
 
       // Handler for recieving message reply from service worker
       msgChan.port1.onmessage = function(event) {
-        if (event.data.error) {
+        if (event.data && event.data.error) {
           reject(event.data.error);
         } else {
           resolve(event.data);
@@ -42,13 +42,21 @@ export default class ServiceWorkerClient {
     waitForSW();
     const msgChan = new MessageChannel();
     const subscriptionId = randomId();
-
+    let cancelled = false;
 
     // Handler for recieving message reply from service worker
     msgChan.port1.onmessage = function(event) {
-      if (event.data.error) {
+      if (event.data && event.data.error) {
         console.error(event.data.error);
       } else {
+        if (cancelled) {
+          console.warn(
+            "Recieved message from subscription when cancelled. Dropping. MessageType:",
+            type,
+            event.data
+          );
+          return;
+        }
         callback(event.data);
       }
     };
@@ -59,6 +67,7 @@ export default class ServiceWorkerClient {
     );
 
     return () => {
+      cancelled = true;
       this.request(MessageType.CancelSubscription, { subscriptionId });
     };
   }

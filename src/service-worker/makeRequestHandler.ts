@@ -69,17 +69,16 @@ export default function makeRequestHandler(asm: AppSyncManager) {
     ({ id }: { id: number }, cb) => {
       let didSendBeforeInitial = false;
       function eventHandler(item: Item) {
-        console.log("RECIEVED ITEM UPSERT");
         if (item.id === id) {
           cb(item);
           didSendBeforeInitial = true;
         }
       }
-      // asm.itemsRepository.getItemById(id).then(item => {
-      //   if (!didSendBeforeInitial) {
-      //     return cb(item);
-      //   }
-      // }, console.error);
+      asm.itemsRepository.getItemById(id).then(item => {
+        if (!didSendBeforeInitial) {
+          return cb(item);
+        }
+      }, console.error);
       asm.itemsRepository.on("itemUpsert", eventHandler);
       return () => {
         console.log("subscription cancelled");
@@ -87,6 +86,25 @@ export default function makeRequestHandler(asm: AppSyncManager) {
       };
     }
   );
+  registerTypeHandler(
+    MessageType.SubscribeToManyItems,
+    ({ itemIds }: { itemIds: number[] }, cb) => {
+      function eventHandler(item: Item) {
+        if (itemIds.includes(item.id)) {
+          cb(item);
+        }
+      }
+      asm.itemsRepository.getItemsByIds(itemIds).then(items => {
+        items.forEach(item => cb(item));
+      }, console.error);
+      asm.itemsRepository.on("itemUpsert", eventHandler);
+      return () => {
+        console.log("subscription cancelled");
+        asm.itemsRepository.off("itemUpsert", eventHandler);
+      };
+    }
+  );
+
   registerTypeHandler(
     MessageType.SubscribeToItemList,
     ({ kind }: { kind: ItemListKind }, cb) => {
@@ -97,15 +115,48 @@ export default function makeRequestHandler(asm: AppSyncManager) {
           didSendBeforeInitial = true;
         }
       }
-      // asm.itemListsRepository.getItemList(kind).then(il => {
-      //   if (!didSendBeforeInitial) {
-      //     return cb(il);
-      //   }
-      // }, console.error);
+      asm.itemListsRepository.getItemList(kind).then(il => {
+        if (!didSendBeforeInitial) {
+          return cb(il);
+        }
+      }, console.error);
       asm.itemListsRepository.on("itemListUpserted", eventHandler);
       return () => {
         asm.itemListsRepository.off("itemListUpserted", eventHandler);
       };
+    }
+  );
+  registerTypeHandler(
+    MessageType.GetItemsWhenReady,
+    async ({ itemIds }: { itemIds: number[] }) => {
+      let readyItemsCount = 0;
+      let itemsToSend: Item[] = [];
+      const readyItems = await asm.itemsRepository.getItemsByIds(itemIds);
+      readyItems.forEach((item, i) => {
+        if (item) {
+          readyItemsCount++;
+          itemsToSend[i] = item;
+        }
+      });
+      if (readyItemsCount < itemIds.length) {
+        await new Promise(res => {
+          function eventHandler(item: Item) {
+            const index = itemIds.indexOf(item.id);
+            if (index !== -1) {
+              if (!itemsToSend[index]) {
+                readyItemsCount++;
+                if (readyItemsCount >= itemIds.length) {
+                  asm.itemsRepository.off("itemUpsert", eventHandler);
+                  res();
+                }
+              }
+              itemsToSend[index] = item;
+            }
+          }
+          asm.itemsRepository.on("itemUpsert", eventHandler);
+        });
+      }
+      return itemsToSend;
     }
   );
   return function(

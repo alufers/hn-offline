@@ -65,7 +65,10 @@ export default class ItemsRepository extends EventEmitter<{
     return awaitIDBRequest(itemsOs.get(id)) as Promise<Item>;
   }
 
-  async getItemsByIds(ids: number[], trans: IDBTransaction) {
+  async getItemsByIds(
+    ids: number[],
+    trans: IDBTransaction = this.asm.db.transaction(["items"], "readonly")
+  ) {
     const itemsOs = trans.objectStore("items");
     let items = await Promise.all(
       ids.map(id => {

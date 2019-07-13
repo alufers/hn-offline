@@ -38,12 +38,13 @@ export default class SyncItemListJob extends BaseJob {
     if (!Array.isArray(itemIds)) {
       throw new Error("itemIds is not an array");
     }
+    itemIds = itemIds.slice(0, 30);
     await this.asm.itemListsRepository.upsertItemList({
       kind: this.itemListKind,
       itemIds,
       lastSync: new Date()
     });
-    for (const itemId of itemIds.slice(0, 30)) {
+    for (const itemId of itemIds) {
       this.addChildJob(new SyncItemJob(this.asm, itemId));
     }
   }

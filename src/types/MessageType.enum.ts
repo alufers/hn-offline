@@ -9,7 +9,9 @@ const enum MessageType {
   Sync,
   CancelSubscription,
   SubscribeToItem,
-  SubscribeToItemList
+  SubscribeToManyItems,
+  SubscribeToItemList,
+  GetItemsWhenReady
 }
 
 export default MessageType;

@@ -30,23 +30,6 @@ export default function makeRequestHandler(asm: AppSyncManager) {
     return await asm.itemListsRepository.getStructuredItems();
   });
 
-  registerTypeHandler(
-    MessageType.GetItemWithPopulatedChildren,
-    async ({ id }: { id: number }) => {
-      try {
-        return await asm.itemsRepository.syncItemRecursive(id);
-      } catch (e) {
-        console.error(e);
-      }
-    }
-  );
-  registerTypeHandler(MessageType.GetItem, async ({ id }: { id: number }) => {
-    try {
-      return await asm.itemsRepository.syncItemIfNeeded(id);
-    } catch (e) {
-      console.error(e);
-    }
-  });
   registerTypeHandler(MessageType.Sync, async () => {
     const job = new SyncItemListJob(asm, ItemListKind.TopStories);
     job.omitCacheCheck = true;

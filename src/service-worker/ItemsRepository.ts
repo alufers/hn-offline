@@ -4,14 +4,20 @@ import AppSyncManager, { ITEM_SYNC_TIME } from "./AppSyncManager";
 import awaitIDBRequest from "./util/awaitIDBRequest";
 import awaitIDBTransaction from "./util/awaitIDBTransaction";
 import createAsyncThrottle from "./util/createAsyncThrottle";
+import EventEmitter from "./util/EventEmitter";
 
-export default class ItemsRepository {
-  constructor(public asm: AppSyncManager) {}
+export default class ItemsRepository extends EventEmitter<{
+  itemUpsert: [Item];
+}> {
+  constructor(public asm: AppSyncManager) {
+    super();
+  }
   async upsertItem(item: Item) {
     const transaction = this.asm.db.transaction(["items"], "readwrite");
     const os = transaction.objectStore("items");
     os.put(item);
     await awaitIDBTransaction(transaction);
+    this.emit("itemUpsert", item);
   }
 
   /**
@@ -59,7 +65,10 @@ export default class ItemsRepository {
     return awaitIDBRequest(itemsOs.get(id)) as Promise<Item>;
   }
 
-  async getItemsByIds(ids: number[], trans: IDBTransaction) {
+  async getItemsByIds(
+    ids: number[],
+    trans: IDBTransaction = this.asm.db.transaction(["items"], "readonly")
+  ) {
     const itemsOs = trans.objectStore("items");
     let items = await Promise.all(
       ids.map(id => {
@@ -88,6 +97,23 @@ export default class ItemsRepository {
       );
     }
 
+    return item;
+  }
+
+  async getItemWithPopulatedChildrenWhenReady(id: number) {
+    let item = (await this.getItemById(id)) as ItemWithPopulatedChildren;
+    if (!item) {
+      item = await new Promise(res =>
+        this.on("itemUpsert", i => res(i as ItemWithPopulatedChildren))
+      );
+    }
+    // populate the children only if it has any kids, the HN api omits the array if it is empty
+    if (Array.isArray(item.kids)) {
+      item.populatedChildren = await Promise.all(
+        item.kids.map(kid => this.getItemWithPopulatedChildrenWhenReady(kid))
+      );
+    }
+    console.log({ item });
     return item;
   }
 }

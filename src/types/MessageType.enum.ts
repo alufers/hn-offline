@@ -7,7 +7,12 @@ const enum MessageType {
   GetItem,
   SubscribeJobQueueLength,
   Sync,
-  CancelSubscription
+  CancelSubscription,
+  SubscribeToItem,
+  SubscribeToManyItems,
+  SubscribeToItemList,
+  GetItemsWhenReady,
+  GetItemWithPopulatedChildrenWhenReady
 }
 
 export default MessageType;

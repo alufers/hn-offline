@@ -24,12 +24,25 @@ export default class EventEmitter<
     }
     return this._lis[event].length;
   }
-  off<EventType extends keyof EV>( event: EventType,
-    handler: (...args: EV[EventType]) => void) {
+  off<EventType extends keyof EV>(
+    event: EventType,
+    handler: (...args: EV[EventType]) => void
+  ) {
     if (!this._lis[event]) {
       return this;
     }
     this._lis[event].splice(this._lis[event].indexOf(handler), 1);
+    return this;
+  }
+  once<EventType extends keyof EV>(
+    event: EventType,
+    handler: (...args: EV[EventType]) => void
+  ) {
+    const realHandler = (...args: EV[EventType]) => {
+      this.off(event, realHandler);
+      handler(...args);
+    };
+    this.on(event, realHandler);
     return this;
   }
 }

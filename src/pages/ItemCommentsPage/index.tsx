@@ -8,7 +8,7 @@ import ItemWithPopulatedChildren from "../../types/ItemWithPopulatedChildren";
 import MessageType from "../../types/MessageType.enum";
 import "./style.less";
 
-export default () => {
+export default function ItemCommentsPage() {
   const id = useParam("id");
   const [item, setItem] = useState<ItemWithPopulatedChildren>(null);
   const [loading, setLoading] = useState(true);
@@ -18,10 +18,12 @@ export default () => {
     async function loadData() {
       try {
         setLoading(true);
+        console.log("BEFRORE");
         const loadedItem = await client.request<ItemWithPopulatedChildren>(
-          MessageType.GetItemWithPopulatedChildren,
-          { id }
+          MessageType.GetItemWithPopulatedChildrenWhenReady,
+          { id: parseInt(id) }
         );
+        console.log({ loadedItem });
         setItem(loadedItem);
       } finally {
         setLoading(false);
@@ -48,4 +50,4 @@ export default () => {
       </div>
     );
   }
-};
+}

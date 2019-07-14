@@ -1,6 +1,6 @@
-import BaseJob from "./BaseJob";
-import AppSyncManager, { ITEM_SYNC_TIME } from "../AppSyncManager";
 import ItemListKind from "../../types/ItemListKind.enum";
+import AppSyncManager, { ITEM_SYNC_TIME } from "../AppSyncManager";
+import BaseJob from "./BaseJob";
 import SyncItemJob from "./SyncItemJob";
 
 export default class SyncItemListJob extends BaseJob {

@@ -13,7 +13,7 @@ export default function ViewItemPage() {
   useEffect(() => {
     async function doFetch() {
       try {
-        const item: Item = await client.request(MessageType.GetItem, {
+        const item: Item = await client.request(MessageType.GetItemWhenReady, {
           id: parseInt(id)
         });
         const resp = await fetch(

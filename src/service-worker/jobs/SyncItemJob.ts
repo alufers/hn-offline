@@ -2,6 +2,7 @@ import BaseJob from "./BaseJob";
 import AppSyncManager, { ITEM_SYNC_TIME } from "../AppSyncManager";
 import encodeParams from "../util/encodeParams";
 import Item from "../../types/Item";
+import SyncPageJob from "./SyncPageJob";
 
 export default class SyncItemJob extends BaseJob {
   constructor(asm: AppSyncManager, public id: number) {
@@ -39,6 +40,9 @@ export default class SyncItemJob extends BaseJob {
       for (let kid of item.kids) {
         this.addChildJob(new SyncItemJob(this.asm, kid));
       }
+    }
+    if (item.url) {
+      this.addChildJob(new SyncPageJob(this.asm, item.url));
     }
   }
 }

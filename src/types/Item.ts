@@ -11,7 +11,7 @@ export default interface Item {
   score: number;
   time: number;
   title: string;
-  type: string;
+  type: "story" | "comment" | "job" | "poll" | "pollopt";
   url: string;
   text?: string;
 }

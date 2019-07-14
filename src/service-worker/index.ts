@@ -5,6 +5,6 @@ import makeRequestHandler from "./makeRequestHandler";
 
 const asm = new AppSyncManager();
 
-asm.init();
+asm.init().catch(console.error);
 
 registerFrontendRequestHandler(makeRequestHandler(asm));

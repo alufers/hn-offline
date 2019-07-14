@@ -19,7 +19,7 @@ export default class ItemsRepository extends EventEmitter<{
     await awaitIDBTransaction(transaction);
     this.emit("itemUpsert", item);
   }
-  
+
   /**
    * Returns an item by id from indexedDB.
    * @param id number
@@ -46,7 +46,6 @@ export default class ItemsRepository extends EventEmitter<{
     return items;
   }
 
-
   async getItemWithPopulatedChildrenWhenReady(id: number) {
     let item = (await this.getItemById(id)) as ItemWithPopulatedChildren;
     if (!item) {
@@ -60,7 +59,16 @@ export default class ItemsRepository extends EventEmitter<{
         item.kids.map(kid => this.getItemWithPopulatedChildrenWhenReady(kid))
       );
     }
-    console.log({ item });
+    return item;
+  }
+
+  async getItemWhenReady(id: number) {
+    let item = (await this.getItemById(id)) as ItemWithPopulatedChildren;
+    if (!item) {
+      item = await new Promise(res =>
+        this.on("itemUpsert", i => res(i as ItemWithPopulatedChildren))
+      );
+    }
     return item;
   }
 }

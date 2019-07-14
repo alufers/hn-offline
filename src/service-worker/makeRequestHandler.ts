@@ -142,13 +142,22 @@ export default function makeRequestHandler(asm: AppSyncManager) {
       return itemsToSend;
     }
   );
+
   registerTypeHandler(
     MessageType.GetItemWithPopulatedChildrenWhenReady,
     ({ id }: { id: number }) => {
       return asm.itemsRepository.getItemWithPopulatedChildrenWhenReady(id);
     }
   );
-  return function(
+
+  registerTypeHandler(
+    MessageType.GetItemWhenReady,
+    ({ id }: { id: number }) => {
+      return asm.itemsRepository.getItemWhenReady(id);
+    }
+  );
+
+  return async function(
     {
       type,
       data,
@@ -156,6 +165,7 @@ export default function makeRequestHandler(asm: AppSyncManager) {
     }: { type: MessageType; data: any; subscriptionId: number },
     subscriptionCallback
   ) {
+    await asm.awaitDbReady();
     if (subscriptionId && subscriptionCallback) {
       subscriptionCancellations[subscriptionId] = handlers[type](
         data,

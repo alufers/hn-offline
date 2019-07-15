@@ -40,3 +40,19 @@
     }
   }
 }
+
+.loading-placeholder:local {
+  height: 1em;
+  width: 100%;
+  background: gray;
+  display: inline-block;
+
+  &.shorter {
+    width: 43%;
+  }
+  &.title {
+    width: 54%;
+  }
+
+  .reflective-animation(@width: 50em);
+}

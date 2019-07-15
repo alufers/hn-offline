@@ -39,6 +39,79 @@ export default function ViewItemPage() {
       </div>
     );
   } else {
-    return <div>Loading...</div>;
+    return (
+      <div styleName="article-content">
+        <h1>
+          <span styleName="loading-placeholder title" />
+        </h1>
+        <div>
+          <p>
+            <span styleName="loading-placeholder" />
+            <span styleName="loading-placeholder" />
+            <span styleName="loading-placeholder" />
+
+            <span styleName="loading-placeholder shorter" />
+          </p>
+          <p>
+            <span styleName="loading-placeholder" />
+            <span styleName="loading-placeholder" />
+            <span styleName="loading-placeholder" />
+            <span styleName="loading-placeholder" />
+            <span styleName="loading-placeholder" />
+            <span styleName="loading-placeholder" />
+            <span styleName="loading-placeholder" />
+            <span styleName="loading-placeholder shorter" />
+          </p>
+          <p>
+            <span styleName="loading-placeholder" />
+            <span styleName="loading-placeholder" />
+            <span styleName="loading-placeholder" />
+            <span styleName="loading-placeholder" />
+            <span styleName="loading-placeholder" />
+            <span styleName="loading-placeholder" />
+            <span styleName="loading-placeholder shorter" />
+          </p>
+          <p>
+            <span styleName="loading-placeholder" />
+            <span styleName="loading-placeholder" />
+            <span styleName="loading-placeholder" />
+            <span styleName="loading-placeholder" />
+            <span styleName="loading-placeholder shorter" />
+          </p>
+          <p>
+            <span styleName="loading-placeholder" />
+            <span styleName="loading-placeholder" />
+            <span styleName="loading-placeholder" />
+            <span styleName="loading-placeholder" />
+            <span styleName="loading-placeholder" />
+            <span styleName="loading-placeholder" />
+            <span styleName="loading-placeholder shorter" />
+          </p>
+          <p>
+            <span styleName="loading-placeholder" />
+            <span styleName="loading-placeholder" />
+            <span styleName="loading-placeholder" />
+            <span styleName="loading-placeholder" />
+            <span styleName="loading-placeholder shorter" />
+          </p>
+          <p>
+            <span styleName="loading-placeholder" />
+            <span styleName="loading-placeholder" />
+            <span styleName="loading-placeholder" />
+            <span styleName="loading-placeholder" />
+            <span styleName="loading-placeholder" />
+            <span styleName="loading-placeholder" />
+            <span styleName="loading-placeholder shorter" />
+          </p>
+          <p>
+            <span styleName="loading-placeholder" />
+            <span styleName="loading-placeholder" />
+            <span styleName="loading-placeholder" />
+            <span styleName="loading-placeholder" />
+            <span styleName="loading-placeholder shorter" />
+          </p>
+        </div>
+      </div>
+    );
   }
 }

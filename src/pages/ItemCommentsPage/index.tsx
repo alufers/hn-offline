@@ -18,12 +18,10 @@ export default function ItemCommentsPage() {
     async function loadData() {
       try {
         setLoading(true);
-        console.log("BEFRORE");
         const loadedItem = await client.request<ItemWithPopulatedChildren>(
           MessageType.GetItemWithPopulatedChildrenWhenReady,
           { id: parseInt(id) }
         );
-        console.log({ loadedItem });
         setItem(loadedItem);
       } finally {
         setLoading(false);

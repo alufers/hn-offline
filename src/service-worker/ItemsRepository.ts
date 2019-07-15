@@ -49,9 +49,13 @@ export default class ItemsRepository extends EventEmitter<{
   async getItemWithPopulatedChildrenWhenReady(id: number) {
     let item = (await this.getItemById(id)) as ItemWithPopulatedChildren;
     if (!item) {
-      item = await new Promise(res =>
-        this.on("itemUpsert", i => res(i as ItemWithPopulatedChildren))
-      );
+      item = await new Promise(res => {
+        const handler = i => {
+          this.off("itemUpsert", handler);
+          res(i as ItemWithPopulatedChildren);
+        };
+        this.on("itemUpsert", handler);
+      });
     }
     // populate the children only if it has any kids, the HN api omits the array if it is empty
     if (Array.isArray(item.kids)) {
@@ -65,9 +69,13 @@ export default class ItemsRepository extends EventEmitter<{
   async getItemWhenReady(id: number) {
     let item = (await this.getItemById(id)) as ItemWithPopulatedChildren;
     if (!item) {
-      item = await new Promise(res =>
-        this.on("itemUpsert", i => res(i as ItemWithPopulatedChildren))
-      );
+      item = await new Promise(res => {
+        const handler = i => {
+          this.off("itemUpsert", handler);
+          res(i as ItemWithPopulatedChildren);
+        };
+        this.on("itemUpsert", handler);
+      });
     }
     return item;
   }

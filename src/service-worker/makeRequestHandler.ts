@@ -28,7 +28,7 @@ export default function makeRequestHandler(asm: AppSyncManager) {
 
   registerTypeHandler(
     MessageType.Sync,
-    async ({ omitCacheCheck = true }: { omitCacheCheck: boolean }) => {
+    async ({ omitCacheCheck = true }: { omitCacheCheck?: boolean } = {}) => {
       const job = new SyncItemListJob(asm, ItemListKind.TopStories);
       job.omitCacheCheck = omitCacheCheck;
       asm.addJob(job);

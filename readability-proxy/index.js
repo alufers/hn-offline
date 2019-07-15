@@ -6,6 +6,7 @@ const cors = require("micro-cors")();
 const Readability = require("readability/Readability");
 
 const handler = async (req, res) => {
+  res.setHeader("Cache-Control", "s-maxage=31536000, max-age=0");
   if (req.method === "OPTIONS") {
     return send(res, 200, "ok!");
   }
@@ -39,7 +40,10 @@ const handler = async (req, res) => {
   });
   dom.window.document.querySelectorAll("script").forEach(node => node.remove);
   const article = new Readability(dom.window.document).parse();
-  res.setHeader("Cache-Control", "s-maxage=31536000, max-age=0");
+  if(!article) {
+    send(res, 502, { error: "Failed to retrieve article contents." });
+    console.error(e);
+  }
   return {
     title: article.title,
     byline: article.byline,

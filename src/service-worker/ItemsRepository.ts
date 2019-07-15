@@ -50,9 +50,11 @@ export default class ItemsRepository extends EventEmitter<{
     let item = (await this.getItemById(id)) as ItemWithPopulatedChildren;
     if (!item) {
       item = await new Promise(res => {
-        const handler = i => {
-          this.off("itemUpsert", handler);
-          res(i as ItemWithPopulatedChildren);
+        const handler = (i: Item) => {
+          if (i.id === id) {
+            this.off("itemUpsert", handler);
+            res(i as ItemWithPopulatedChildren);
+          }
         };
         this.on("itemUpsert", handler);
       });
@@ -70,9 +72,11 @@ export default class ItemsRepository extends EventEmitter<{
     let item = (await this.getItemById(id)) as ItemWithPopulatedChildren;
     if (!item) {
       item = await new Promise(res => {
-        const handler = i => {
-          this.off("itemUpsert", handler);
-          res(i as ItemWithPopulatedChildren);
+        const handler = (i: Item) => {
+          if (i.id === id) {
+            this.off("itemUpsert", handler);
+            res(i as ItemWithPopulatedChildren);
+          }
         };
         this.on("itemUpsert", handler);
       });

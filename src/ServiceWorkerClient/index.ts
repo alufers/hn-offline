@@ -39,32 +39,35 @@ export default class ServiceWorkerClient {
    * @param callback
    */
   subscribe<T>(type: MessageType, data: any, callback: (data: T) => void) {
-    waitForSW();
-    const msgChan = new MessageChannel();
-    const subscriptionId = randomId();
     let cancelled = false;
+    const subscriptionId = randomId();
+    async function doSubscribe() {
+      await waitForSW();
+      const msgChan = new MessageChannel();
 
-    // Handler for recieving message reply from service worker
-    msgChan.port1.onmessage = function(event) {
-      if (event.data && event.data.error) {
-        console.error(event.data.error);
-      } else {
-        if (cancelled) {
-          console.warn(
-            "Recieved message from subscription when cancelled. Dropping. MessageType:",
-            type,
-            event.data
-          );
-          return;
+      // Handler for recieving message reply from service worker
+      msgChan.port1.onmessage = function(event) {
+        if (event.data && event.data.error) {
+          console.error(event.data.error);
+        } else {
+          if (cancelled) {
+            console.warn(
+              "Recieved message from subscription when cancelled. Dropping. MessageType:",
+              type,
+              event.data
+            );
+            return;
+          }
+          callback(event.data);
         }
-        callback(event.data);
-      }
-    };
-    // Send message to service worker along with port for reply
-    navigator.serviceWorker.controller.postMessage(
-      { type, data, isSubscription: true, subscriptionId },
-      [msgChan.port2]
-    );
+      };
+      // Send message to service worker along with port for reply
+      navigator.serviceWorker.controller.postMessage(
+        { type, data, isSubscription: true, subscriptionId },
+        [msgChan.port2]
+      );
+    }
+    doSubscribe();
 
     return () => {
       cancelled = true;

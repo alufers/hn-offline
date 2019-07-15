@@ -23,7 +23,9 @@ export default function ItemListPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [items, setItems] = useState<Item[]>(null);
   const serviceWorkerClient = useServiceWorkerClient();
-
+  useEffect(() => {
+    serviceWorkerClient.request(MessageType.Sync, { omitCacheCheck: false });
+  }, []);
   useEffect(() => {
     if (!itemList) {
       return;

@@ -26,16 +26,15 @@ export default function makeRequestHandler(asm: AppSyncManager) {
     return {};
   });
 
-  registerTypeHandler(MessageType.GetItems, async data => {
-    return await asm.itemListsRepository.getStructuredItems();
-  });
-
-  registerTypeHandler(MessageType.Sync, async () => {
-    const job = new SyncItemListJob(asm, ItemListKind.TopStories);
-    job.omitCacheCheck = true;
-    asm.addJob(job);
-    return {};
-  });
+  registerTypeHandler(
+    MessageType.Sync,
+    async ({ omitCacheCheck = true }: { omitCacheCheck: boolean }) => {
+      const job = new SyncItemListJob(asm, ItemListKind.TopStories);
+      job.omitCacheCheck = omitCacheCheck;
+      asm.addJob(job);
+      return {};
+    }
+  );
 
   registerTypeHandler(MessageType.SubscribeJobQueueLength, (_, cb) => {
     function eventHandler(newLength: number) {
@@ -47,28 +46,7 @@ export default function makeRequestHandler(asm: AppSyncManager) {
       asm.off("jobQueueLengthChange", eventHandler);
     };
   });
-  registerTypeHandler(
-    MessageType.SubscribeToItem,
-    ({ id }: { id: number }, cb) => {
-      let didSendBeforeInitial = false;
-      function eventHandler(item: Item) {
-        if (item.id === id) {
-          cb(item);
-          didSendBeforeInitial = true;
-        }
-      }
-      asm.itemsRepository.getItemById(id).then(item => {
-        if (!didSendBeforeInitial) {
-          return cb(item);
-        }
-      }, console.error);
-      asm.itemsRepository.on("itemUpsert", eventHandler);
-      return () => {
-        console.log("subscription cancelled");
-        asm.itemsRepository.off("itemUpsert", eventHandler);
-      };
-    }
-  );
+
   registerTypeHandler(
     MessageType.SubscribeToManyItems,
     ({ itemIds }: { itemIds: number[] }, cb) => {

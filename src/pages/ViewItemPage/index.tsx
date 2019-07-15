@@ -16,12 +16,12 @@ export default function ViewItemPage() {
         const item: Item = await client.request(MessageType.GetItemWhenReady, {
           id: parseInt(id)
         });
-        const resp = await fetch(
-          `${process.env.READABILITY_PROXY_URL ||
-            "http://localhost:8089/"}?url=${encodeURIComponent(item.url)}`
+
+        setArticleData(
+          await client.request(MessageType.GetCachedPageWhenReady, {
+            originalUrl: item.url
+          })
         );
-        const data = await resp.json();
-        setArticleData(data);
       } finally {
         setLoading(false);
       }

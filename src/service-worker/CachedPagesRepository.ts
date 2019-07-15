@@ -23,4 +23,20 @@ export default class CachedPagesRepository extends EventEmitter<{
     const os = transaction.objectStore("cachedPages");
     return awaitIDBRequest(os.get(originalUrl)) as Promise<CachedPage>;
   }
+
+  async getPageByOriginalUrlWhenReady(originalUrl: string) {
+    let page = await this.getPageByOriginalUrl(originalUrl);
+    if (!page) {
+      page = await new Promise(res => {
+        const handler = (p: CachedPage) => {
+          if (p.originalURL === originalUrl) {
+            this.off("pageUpsert", handler);
+            res(p);
+          }
+        };
+        this.on("pageUpsert", handler);
+      });
+    }
+    return page;
+  }
 }

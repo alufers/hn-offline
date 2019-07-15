@@ -157,6 +157,15 @@ export default function makeRequestHandler(asm: AppSyncManager) {
     }
   );
 
+  registerTypeHandler(
+    MessageType.GetCachedPageWhenReady,
+    ({ originalUrl }: { originalUrl: string }) => {
+      return asm.cachedPagesRepository.getPageByOriginalUrlWhenReady(
+        originalUrl
+      );
+    }
+  );
+
   return async function(
     {
       type,

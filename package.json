@@ -4,7 +4,7 @@
   "description": "A PWA for accessing hackernews offline",
   "main": "src/index.ts",
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^1.2.21",
+    "@fortawesome/fontawesome-svg-core": "^1.2.27",
     "@fortawesome/free-solid-svg-icons": "^5.10.1",
     "@fortawesome/react-fontawesome": "^0.1.4",
     "babel-plugin-auto-import": "^1.0.5",

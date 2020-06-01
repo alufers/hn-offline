@@ -9,7 +9,7 @@
     "@fortawesome/react-fontawesome": "^0.1.4",
     "babel-plugin-auto-import": "^1.0.5",
     "icon-font-loader": "^2.1.0",
-    "less": "^3.9.0",
+    "less": "^3.11.2",
     "preact": "^10.0.0-rc.0",
     "preact-compat": "^3.19.0",
     "serviceworker-webpack-plugin": "^1.0.1",

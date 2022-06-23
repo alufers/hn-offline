@@ -2,7 +2,7 @@
   "dependencies": {
     "canvas": "file:package-stubs/canvas",
     "cross-env": "^5.2.0",
-    "jsdom": "^15.1.1",
+    "jsdom": "^16.5.0",
     "micro": "^9.3.4",
     "micro-cors": "^0.1.1",
     "node-fetch": "^2.6.0",

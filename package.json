@@ -39,7 +39,7 @@
     "optimize-css-assets-webpack-plugin": "^5.0.3",
     "postcss-less": "^3.1.4",
     "style-loader": "^1.0.0",
-    "svg-inline-loader": "^0.8.0",
+    "svg-inline-loader": "^0.8.2",
     "ts-loader": "^6.0.4",
     "ts-node": "^8.3.0",
     "types-serviceworker": "0.0.1",
@@ -48,7 +48,7 @@
     "webapp-webpack-plugin": "^2.7.1",
     "webpack": "^4.39.1",
     "webpack-bundle-analyzer": "^3.4.1",
-    "webpack-cli": "^3.3.6",
+    "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.7.2",
     "webpack-merge": "^4.2.1",
     "webpack-pwa-manifest": "^4.0.0"
